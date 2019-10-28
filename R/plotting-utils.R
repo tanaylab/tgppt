@@ -9,11 +9,11 @@ arial_theme <- function(size = 6){
             panel.background = element_blank(),
             panel.grid.minor = element_blank(),
             strip.background = element_blank(),
-            strip.text = element_text(colour = "black", size = 6, family = "Arial")
+            strip.text = element_text(colour = "black", size = size, family = "Arial")
         )
      arial_theme <- arial_theme + theme(
-        text = element_text(size = 6, family = "Arial"),
-        axis.text = element_text(size = 6, family = "Arial")
+        text = element_text(size = size, family = "Arial"),
+        axis.text = element_text(size = size, family = "Arial")
     )
 
     return(arial_theme)
