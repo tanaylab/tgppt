@@ -8,6 +8,14 @@
 \description{
 What the package does (one paragraph).
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/tanaylab/tgppt}
+  \item Report bugs at \url{https://github.com/tanaylab/tgppt/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Aviezer Lifshitz \email{aviezer.lifshitz@weizmann.ac.il}
 

@@ -25,8 +25,8 @@ Plot base R directly to a powerpoint presentation:
 ``` r
 library(tgppt)
 temp_ppt <- tempfile(fileext = ".pptx")
-plot_base_ppt_at({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
-#> [1] "/tmp/Rtmp2ZwgHg/file554b7558b843b.pptx"
+plot_base_ppt({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
+#> [1] "/tmp/Rtmp2ZwgHg/file554b75659dd3d.pptx"
 ```
 
 Plot ggplot to a powerpoint presentation:
@@ -35,8 +35,8 @@ Plot ggplot to a powerpoint presentation:
 library(tgppt)
 gg <- ggplot(mtcars, aes(x=mpg, y=drat)) + geom_point()
 temp_ppt <- tempfile(fileext = ".pptx")
-plot_gg_ppt_at(gg, temp_ppt)
-#> [1] "/tmp/Rtmp2ZwgHg/file554b75253589f.pptx"
+plot_gg_ppt(gg, temp_ppt)
+#> [1] "/tmp/Rtmp2ZwgHg/file554b758322a4d.pptx"
 ```
 
 Create a new powerpoint file:

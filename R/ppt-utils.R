@@ -82,15 +82,15 @@ new_ppt <- function(fn){
 #' 
 #' gg <- ggplot(mtcars, aes(x=mpg, y=drat)) + geom_point()
 #' temp_ppt <- tempfile(fileext = ".pptx")
-#' plot_gg_ppt_at(gg, temp_ppt)
+#' plot_gg_ppt(gg, temp_ppt)
 #' 
 #' @export
-plot_gg_ppt_at <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, new_slide = FALSE){
+plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, new_slide = FALSE){
     if (sep_legend){
-        plot_base_ppt_at(code = print(gg + theme(legend.position="none")), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide)
-        plot_base_ppt_at(code = print(grid::grid.draw(cowplot::get_legend(gg))), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide)
+        plot_base_ppt(code = print(gg + theme(legend.position="none")), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide)
+        plot_base_ppt(code = print(grid::grid.draw(cowplot::get_legend(gg))), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide)
     } else {
-        plot_base_ppt_at(code = print(gg), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide)    
+        plot_base_ppt(code = print(gg), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide)    
     }
     
 }
@@ -109,11 +109,11 @@ plot_gg_ppt_at <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5
 #' @examples
 #' 
 #' temp_ppt <- tempfile(fileext = ".pptx")
-#' plot_base_ppt_at({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
+#' plot_base_ppt({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
 #' 
 #' 
 #' @export
-plot_base_ppt_at <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, new_slide = FALSE){
+plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, new_slide = FALSE){
 
     cm2inch <- 1
     if (!inches){
