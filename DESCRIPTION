@@ -1,0 +1,28 @@
+Package: tgppt
+Title: Tanay Group Powerpoint Utils
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Aviezer",
+           family = "Lifshitz",
+           role = c("aut", "cre"),
+           email = "aviezer.lifshitz@weizmann.ac.il")
+Description: What the package does (one paragraph).
+License: GPL-3
+Suggests: 
+    testthat (>= 2.1.0)
+Encoding: UTF-8
+Language: es
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+Imports: 
+    magrittr,
+    dplyr,
+    ggplot2,
+    tidyr,
+ 	glue,
+ 	purrr,
+  	rvg,
+ 	officer,
+  	cowplot,
+ 	grid
