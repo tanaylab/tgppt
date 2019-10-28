@@ -63,7 +63,7 @@ ph_with_text_by_name_template <- function(x, text, name, template_ppt) {
 #' @examples 
 #' new_ppt()
 new_ppt <- function(fn){
-    file.copy(system.file("ppt", "template.pptx", package = "alutil"), fn)
+    file.copy(system.file("ppt", "template.pptx", package = "tgppt"), fn)
 }
 
 #' Plot ggplot object to ppt
