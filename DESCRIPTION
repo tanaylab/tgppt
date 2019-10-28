@@ -26,3 +26,5 @@ Imports:
  	officer,
   	cowplot,
  	grid
+URL: https://github.com/tanaylab/tgppt
+BugReports: https://github.com/tanaylab/tgppt/issues
