@@ -77,6 +77,7 @@ new_ppt <- function(fn){
 #' @param inches measures are given in inches
 #' @param sep_legend plot legend and plot separatly
 #' @param new_slide add plot to a new slide
+#' @param overwrite overwrite existing file
 #' 
 #' @examples
 #' 
@@ -85,10 +86,10 @@ new_ppt <- function(fn){
 #' plot_gg_ppt(gg, temp_ppt)
 #' 
 #' @export
-plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, new_slide = FALSE){
+plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, new_slide = FALSE, overwrite = FALSE){
     if (sep_legend){
-        plot_base_ppt(code = print(gg + theme(legend.position="none")), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide)
-        plot_base_ppt(code = print(grid::grid.draw(cowplot::get_legend(gg))), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide)
+        plot_base_ppt(code = print(gg + theme(legend.position="none")), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide, overwrite = overwrite)
+        plot_base_ppt(code = print(grid::grid.draw(cowplot::get_legend(gg))), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide, overwrite = overwrite)
     } else {
         plot_base_ppt(code = print(gg), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide)    
     }
@@ -105,6 +106,7 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
 #' @param top top alignment in cm
 #' @param inches measures are given in inches
 #' @param new_slide add plot to a new slide
+#' @param overwrite overwrite existing file
 #' 
 #' @examples
 #' 
@@ -113,14 +115,14 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
 #' 
 #' 
 #' @export
-plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, new_slide = FALSE){
+plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, new_slide = FALSE, overwrite = FALSE){
 
     cm2inch <- 1
     if (!inches){
         cm2inch <- 2.54
     }
 
-    if (!file.exists(out_ppt)){
+    if (!file.exists(out_ppt) || overwrite){
         ppt <- read_pptx(system.file("ppt", "template.pptx", package = "alutil"))
     } else {
         ppt <- read_pptx(out_ppt)

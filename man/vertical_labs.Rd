@@ -2,10 +2,10 @@
 % Please edit documentation in R/plotting-utils.R
 \name{vertical_labs}
 \alias{vertical_labs}
-\title{Set X axis vertical labels in ggplot2}
+\title{Set x-axis vertical labels in ggplot2}
 \usage{
 vertical_labs()
 }
 \description{
-Set X axis vertical labels in ggplot2
+Set x-axis vertical labels in ggplot2
 }

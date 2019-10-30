@@ -2,13 +2,13 @@
 % Please edit documentation in R/plotting-utils.R
 \name{arial_theme}
 \alias{arial_theme}
-\title{A ggplot2 custom theme (based on 'Arial' font)}
+\title{A ggplot2 custom theme (based on 'ArialMT' font)}
 \usage{
-arial_theme(size = 6)
+arial_theme(size = 8)
 }
 \arguments{
 \item{size}{base size of text}
 }
 \description{
-A ggplot2 custom theme (based on 'Arial' font)
+A ggplot2 custom theme (based on 'ArialMT' font)
 }

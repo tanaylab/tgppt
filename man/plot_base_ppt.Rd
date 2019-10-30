@@ -5,7 +5,7 @@
 \title{Plot base R plots to ppt}
 \usage{
 plot_base_ppt(code, out_ppt, height = 6, width = 6, left = 5,
-  top = 5, inches = FALSE, new_slide = FALSE)
+  top = 5, inches = FALSE, new_slide = FALSE, overwrite = FALSE)
 }
 \arguments{
 \item{code}{code that generates plot}
@@ -23,6 +23,8 @@ plot_base_ppt(code, out_ppt, height = 6, width = 6, left = 5,
 \item{inches}{measures are given in inches}
 
 \item{new_slide}{add plot to a new slide}
+
+\item{overwrite}{overwrite existing file}
 }
 \description{
 Plot base R plots to ppt
