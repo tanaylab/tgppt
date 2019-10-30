@@ -50,5 +50,5 @@ new_ppt("myfile.pptx")
 Use "Arial" font based ggplot theme:
 
 ``` r
-ggplot2::theme_set(arial_theme(8))
+ggplot2::theme_set(theme_arial(8))
 ```
