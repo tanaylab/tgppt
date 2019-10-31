@@ -10,7 +10,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tgppt)](https://CRAN.R-project.org/package=tgppt)
 [![Travis build
-status](https://travis-ci.org/tanaylab/tgppt.svg?branch=master)](https://travis-ci.org/tanaylab/tgppt)
+status](https://travis-ci.com/tanaylab/tgppt.svg?branch=master)](https://travis-ci.org/tanaylab/tgppt)
 [![Codecov test
 coverage](https://codecov.io/gh/tanaylab/tgppt/branch/master/graph/badge.svg)](https://codecov.io/gh/tanaylab/tgppt?branch=master)
 <!-- badges: end -->
