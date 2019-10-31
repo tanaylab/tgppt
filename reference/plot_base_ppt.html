@@ -115,7 +115,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>plot_base_ppt</span>(<span class='no'>code</span>, <span class='no'>out_ppt</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>left</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>top</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>inches</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>new_slide</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>top</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>inches</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>new_slide</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,13 +152,17 @@
       <th>new_slide</th>
       <td><p>add plot to a new slide</p></td>
     </tr>
+    <tr>
+      <th>overwrite</th>
+      <td><p>overwrite existing file</p></td>
+    </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>temp_ppt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".pptx"</span>)
-<span class='fu'>plot_base_ppt</span>({<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>drat</span>)}, <span class='no'>temp_ppt</span>)</div><div class='output co'>#&gt; [1] "/tmp/Rtmp0PAx9K/file57d915cd10cb3.pptx"</div><div class='input'>
+<span class='fu'>plot_base_ppt</span>({<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>drat</span>)}, <span class='no'>temp_ppt</span>)</div><div class='output co'>#&gt; [1] "/tmp/RtmpSPkrtQ/file645e6706e48b.pptx"</div><div class='input'>
 
 </div></pre>
   </div>
@@ -179,7 +183,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
