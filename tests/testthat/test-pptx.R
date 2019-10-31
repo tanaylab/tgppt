@@ -25,3 +25,10 @@ test_that("pptx file is generated (ggplot) with separate legend", {
     expect_true(file.exists(temp_ppt))
 })
 
+test_that("pptx is generated with new_ppt", {    
+    temp_ppt <- tempfile(fileext = ".pptx")
+    new_ppt(temp_ppt)
+    expect_true(file.exists(temp_ppt))
+})
+
+

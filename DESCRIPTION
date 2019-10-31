@@ -8,24 +8,25 @@ Authors@R:
            email = "aviezer.lifshitz@weizmann.ac.il")
 Description: What the package does (one paragraph).
 License: GPL-3
+URL: https://github.com/tanaylab/tgppt
+BugReports: https://github.com/tanaylab/tgppt/issues
+Imports: 
+    cowplot,
+    dplyr,
+    ggplot2,
+    glue,
+    grid,
+    magrittr,
+    officer,
+    purrr,
+    rvg,
+    tidyr,
+    stringr
 Suggests: 
-    testthat (>= 2.1.0),
-    covr
+    covr,
+    testthat (>= 2.1.0)
 Encoding: UTF-8
 Language: es
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
-Imports: 
-    magrittr,
-    dplyr,
-    ggplot2,
-    tidyr,
- 	glue,
- 	purrr,
-  	rvg,
- 	officer,
-  	cowplot,
- 	grid
-URL: https://github.com/tanaylab/tgppt
-BugReports: https://github.com/tanaylab/tgppt/issues

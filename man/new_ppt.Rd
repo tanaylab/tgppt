@@ -16,5 +16,6 @@ logical value indicating if the operation succeded
 Generate an empty pptx file
 }
 \examples{
-new_ppt()
+new_ppt("my_ppt.pptx")
+
 }
