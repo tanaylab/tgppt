@@ -43,3 +43,8 @@ ph_with_text_by_name_template <- function(x, text, name, template_ppt) {
     print(loc)
     x %>% ph_with_fpars_at(fpars = fp_text_arial(text), left = loc$offx, top = loc$offy, width = loc$cx, height = loc$cy)
 }
+
+fp_text_arial <- function(text, ...) {
+    list(fpar(ftext(glue(text), fp_text(font.size = 6, font.family = "Arial", ...))))
+}
+

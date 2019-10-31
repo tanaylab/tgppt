@@ -1,7 +1,3 @@
-fp_text_arial <- function(text, ...) {
-    list(fpar(ftext(glue(text), fp_text(font.size = 6, font.family = "Arial", ...))))
-}
-
 #' Generate an empty pptx file
 #' 
 #' @param fn file name of the new pptx file
