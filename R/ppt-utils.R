@@ -74,7 +74,7 @@ plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 
     }
 
     if (!file.exists(out_ppt) || overwrite){
-        ppt <- read_pptx(system.file("ppt", "template.pptx", package = "alutil"))
+        ppt <- read_pptx(system.file("ppt", "template.pptx", package = "tgppt"))
     } else {
         ppt <- read_pptx(out_ppt)
         if (new_slide){
