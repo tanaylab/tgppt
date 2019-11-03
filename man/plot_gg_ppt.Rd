@@ -34,6 +34,7 @@ Plot ggplot object to ppt
 }
 \examples{
 
+library(ggplot2)
 gg <- ggplot(mtcars, aes(x=mpg, y=drat)) + geom_point()
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_gg_ppt(gg, temp_ppt)
