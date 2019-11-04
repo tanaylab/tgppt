@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot base R plots to ppt — plot_base_ppt • tgppt</title>
+<title>Raster version of geom_boxplot with jittering of outliers — geom_boxplot_jitter • tgppt</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Plot base R plots to ppt — plot_base_ppt" />
-<meta property="og:description" content="Plot base R plots to ppt" />
+<meta property="og:title" content="Raster version of geom_boxplot with jittering of outliers — geom_boxplot_jitter" />
+<meta property="og:description" content="Raster version of geom_boxplot with jittering of outliers" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,72 +105,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot base R plots to ppt</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tanaylab/tgppt/blob/master/R/ppt-utils.R'><code>R/ppt-utils.R</code></a></small>
-    <div class="hidden name"><code>plot_base_ppt.Rd</code></div>
+    <h1>Raster version of geom_boxplot with jittering of outliers</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tanaylab/tgppt/blob/master/R/plotting-utils.R'><code>R/plotting-utils.R</code></a></small>
+    <div class="hidden name"><code>geom_boxplot_jitter.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot base R plots to ppt</p>
+    <p>Raster version of geom_boxplot with jittering of outliers</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_base_ppt</span>(<span class='no'>code</span>, <span class='no'>out_ppt</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>left</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>top</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>inches</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>new_slide</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>geom_boxplot_jitter</span>(<span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>code</th>
-      <td><p>code that generates plot</p></td>
-    </tr>
-    <tr>
-      <th>out_ppt</th>
-      <td><p>output pptx file</p></td>
-    </tr>
-    <tr>
-      <th>height</th>
-      <td><p>height in cm</p></td>
-    </tr>
-    <tr>
-      <th>width</th>
-      <td><p>width in cm</p></td>
-    </tr>
-    <tr>
-      <th>left</th>
-      <td><p>left alignment in cm</p></td>
-    </tr>
-    <tr>
-      <th>top</th>
-      <td><p>top alignment in cm</p></td>
-    </tr>
-    <tr>
-      <th>inches</th>
-      <td><p>measures are given in inches</p></td>
-    </tr>
-    <tr>
-      <th>new_slide</th>
-      <td><p>add plot to a new slide</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>overwrite existing file</p></td>
+      <th>...</th>
+      <td><p>arguments passed to ggrastr::geom_boxplot_jitter</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>temp_ppt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".pptx"</span>)
-<span class='fu'>plot_base_ppt</span>({
-    <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>drat</span>)
-}, <span class='no'>temp_ppt</span>)</div><div class='output co'>#&gt; [1] "/tmp/RtmpIQ8VBt/file36911a29893d.pptx"</div></pre>
+    <div class='dont-index'><p>ggrastr::geom_boxplot_jitter</p></div>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>
