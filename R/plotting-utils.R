@@ -32,7 +32,7 @@ vertical_labs <- function() {
 #'
 #' @param ... arguments passed to ggrastr::geom_point_rast
 #'  
-#' @seealso ggrastr::geom_point_rast
+#' @seealso \code{\link[ggrastr]{geom_point_rast}}
 #' @export
 geom_point_rast <- purrr::partial(ggrastr::geom_point_rast, raster.width = 1, raster.height = 1)
 
@@ -40,6 +40,7 @@ geom_point_rast <- purrr::partial(ggrastr::geom_point_rast, raster.width = 1, ra
 #' 
 #' @param ... arguments passed to ggrastr::geom_boxplot_jitter
 #' 
-#' @seealso ggrastr::geom_boxplot_jitter
+#' @seealso \code{\link[ggrastr]{geom_boxplot_jitter}}
+#' 
 #' @export
 geom_boxplot_jitter <- purrr::partial(ggrastr::geom_boxplot_jitter, raster.width = 1, raster.height = 1)

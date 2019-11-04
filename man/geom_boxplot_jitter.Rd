@@ -13,5 +13,5 @@ geom_boxplot_jitter(...)
 Raster version of geom_boxplot with jittering of outliers
 }
 \seealso{
-ggrastr::geom_boxplot_jitter
+\code{\link[ggrastr]{geom_boxplot_jitter}}
 }

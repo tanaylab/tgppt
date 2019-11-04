@@ -13,5 +13,5 @@ geom_point_rast(...)
 Raster version of geom_point
 }
 \seealso{
-ggrastr::geom_point_rast
+\code{\link[ggrastr]{geom_point_rast}}
 }
