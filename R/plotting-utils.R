@@ -27,3 +27,19 @@ theme_arial <- function(size = 8) {
 vertical_labs <- function() {
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 }
+
+#' Raster version of geom_point
+#'
+#' @param ... arguments passed to ggrastr::geom_point_rast
+#'  
+#' @seealso ggrastr::geom_point_rast
+#' @export
+geom_point_rast <- purrr::partial(ggrastr::geom_point_rast, raster.width = 1, raster.height = 1)
+
+#' Raster version of geom_boxplot with jittering of outliers
+#' 
+#' @param ... arguments passed to ggrastr::geom_boxplot_jitter
+#' 
+#' @seealso ggrastr::geom_boxplot_jitter
+#' @export
+geom_boxplot_jitter <- purrr::partial(ggrastr::geom_boxplot_jitter, raster.width = 1, raster.height = 1)
