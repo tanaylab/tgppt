@@ -63,4 +63,29 @@ Use "Arial" font based ggplot theme:
 ggplot2::theme_set(theme_arial(8))
 ```
 
+## Note on plotting large number of points
+
+Powerpoint might crash when plotting a large number of points, so it is advised to use the a rasterized version of geom_point:
+
+```{r geom_point_rast}
+library(tgppt)
+library(ggplot2)
+gg <- ggplot(mtcars, aes(x=mpg, y=drat)) + geom_point_rast()
+temp_ppt <- tempfile(fileext = ".pptx")
+plot_gg_ppt(gg, temp_ppt)
+```
+
+The same problem might occur when plotting a boxplot with many outliers:
+
+```{r geom_boxplot_jitter}
+library(tgppt)
+library(ggplot2)
+gg <- ggplot(mtcars, aes(x=factor(cyl), y=drat)) + geom_boxplot_jitter()
+temp_ppt <- tempfile(fileext = ".pptx")
+plot_gg_ppt(gg, temp_ppt)
+```
+
+
+
+
 

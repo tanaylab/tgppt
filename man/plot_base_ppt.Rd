@@ -32,7 +32,7 @@ Plot base R plots to ppt
 \examples{
 
 temp_ppt <- tempfile(fileext = ".pptx")
-plot_base_ppt({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
-
-
+plot_base_ppt({
+    plot(mtcars$mpg, mtcars$drat)
+}, temp_ppt)
 }

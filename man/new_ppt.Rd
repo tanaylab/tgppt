@@ -17,5 +17,4 @@ Generate an empty pptx file
 }
 \examples{
 new_ppt("my_ppt.pptx")
-
 }

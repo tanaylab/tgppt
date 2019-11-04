@@ -21,10 +21,13 @@ Imports:
     purrr,
     rvg,
     tidyr,
-    stringr
+    stringr,
+    ggrastr
 Suggests: 
     covr,
     testthat (>= 2.1.0)
+Remotes: 
+    VPetukhov/ggrastr
 Encoding: UTF-8
 Language: es
 LazyData: true
