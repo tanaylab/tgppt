@@ -14,7 +14,8 @@ theme_arial <- function(size = 8) {
     theme_arial <- theme_arial + theme(
         text = element_text(size = size, family = "ArialMT"),
         axis.text = element_text(size = size, family = "ArialMT"),
-        legend.text = element_text(size = size, family = "ArialMT")
+        legend.text = element_text(size = size, family = "ArialMT"),
+        plot.title = element_text(size = size, family = "ArialMT")
     )
 
     return(theme_arial)
