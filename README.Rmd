@@ -63,7 +63,7 @@ Use "Arial" font based ggplot theme:
 ggplot2::theme_set(theme_arial(8))
 ```
 
-## Note on plotting large number of points
+## Note on plotting a large number of points
 
 Powerpoint might crash when plotting a large number of points, so it is advised to use the a rasterized version of geom_point:
 
