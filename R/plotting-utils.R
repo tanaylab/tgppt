@@ -29,18 +29,20 @@ vertical_labs <- function() {
 }
 
 #' Raster version of geom_point
-#'
-#' @param ... arguments passed to ggrastr::geom_point_rast
-#'  
-#' @seealso \code{\link[ggrastr]{geom_point_rast}}
+#' @inherit ggrastr::geom_point_rast 
+#' @examples 
+#' library(ggplot2)
+#' ggplot() + geom_point_rast(aes(x=rnorm(1000), y=rnorm(1000)), raster.dpi=600)
+#' 
 #' @export
-geom_point_rast <- purrr::partial(ggrastr::geom_point_rast, raster.width = 1, raster.height = 1)
+geom_point_rast <- ggrastr::geom_point_rast
 
 #' Raster version of geom_boxplot with jittering of outliers
 #' 
-#' @param ... arguments passed to ggrastr::geom_boxplot_jitter
-#' 
-#' @seealso \code{\link[ggrastr]{geom_boxplot_jitter}}
+#' @inherit ggrastr::geom_boxplot_jitter
+#' @examples 
+#' library(ggplot2) 
+#' ggplot() + geom_boxplot_jitter(aes(y=rt(1000, df=3), x=as.factor(1:1000 %% 2)), outlier.jitter.width = 0.1, raster = TRUE)
 #' 
 #' @export
-geom_boxplot_jitter <- purrr::partial(ggrastr::geom_boxplot_jitter, raster.width = 1, raster.height = 1)
+geom_boxplot_jitter <- ggrastr::geom_boxplot_jitter

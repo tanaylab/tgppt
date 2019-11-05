@@ -34,7 +34,7 @@ Plot base R directly to a powerpoint presentation:
 library(tgppt)
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_base_ppt({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
-#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/Rtmp3OuPdG/file7176a25c4da.pptx"
+#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e3772d48e9.pptx"
 ```
 
 Plot ggplot to a powerpoint presentation:
@@ -45,7 +45,7 @@ library(ggplot2)
 gg <- ggplot(mtcars, aes(x=mpg, y=drat)) + geom_point()
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_gg_ppt(gg, temp_ppt)
-#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/Rtmp3OuPdG/file717352d17eb.pptx"
+#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e37c34ee3f.pptx"
 ```
 
 Create a new powerpoint file:
@@ -53,7 +53,6 @@ Create a new powerpoint file:
 ``` r
 library(tgppt)
 new_ppt("myfile.pptx")
-#> [1] TRUE
 ```
 
 Use “Arial” font based ggplot theme:
@@ -70,10 +69,10 @@ advised to use the a rasterized version of geom\_point:
 ``` r
 library(tgppt)
 library(ggplot2)
-gg <- ggplot(mtcars, aes(x=mpg, y=drat)) + geom_point_rast()
+gg <- ggplot() + geom_point_rast(aes(x=rnorm(1000), y=rnorm(1000)))
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_gg_ppt(gg, temp_ppt)
-#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/Rtmp3OuPdG/file7175d67f481.pptx"
+#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e34fe2d700.pptx"
 ```
 
 The same problem might occur when plotting a boxplot with many outliers:
@@ -81,8 +80,8 @@ The same problem might occur when plotting a boxplot with many outliers:
 ``` r
 library(tgppt)
 library(ggplot2)
-gg <- ggplot(mtcars, aes(x=factor(cyl), y=drat)) + geom_boxplot_jitter()
+gg <- ggplot() + geom_boxplot_jitter(aes(y=rt(1000, df=3), x=as.factor(1:1000 %% 2)), outlier.jitter.width = 0.1, raster = TRUE)
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_gg_ppt(gg, temp_ppt)
-#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/Rtmp3OuPdG/file717106e21c.pptx"
+#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e3a71b796.pptx"
 ```

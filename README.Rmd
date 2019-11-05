@@ -53,7 +53,7 @@ plot_gg_ppt(gg, temp_ppt)
 ```
 
 Create a new powerpoint file: 
-```{r new_file}
+```{r new_file, eval = FALSE}
 library(tgppt)
 new_ppt("myfile.pptx")
 ```
@@ -70,7 +70,7 @@ Powerpoint might crash when plotting a large number of points, so it is advised 
 ```{r geom_point_rast}
 library(tgppt)
 library(ggplot2)
-gg <- ggplot(mtcars, aes(x=mpg, y=drat)) + geom_point_rast()
+gg <- ggplot() + geom_point_rast(aes(x=rnorm(1000), y=rnorm(1000)))
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_gg_ppt(gg, temp_ppt)
 ```
@@ -80,7 +80,7 @@ The same problem might occur when plotting a boxplot with many outliers:
 ```{r geom_boxplot_jitter}
 library(tgppt)
 library(ggplot2)
-gg <- ggplot(mtcars, aes(x=factor(cyl), y=drat)) + geom_boxplot_jitter()
+gg <- ggplot() + geom_boxplot_jitter(aes(y=rt(1000, df=3), x=as.factor(1:1000 %% 2)), outlier.jitter.width = 0.1, raster = TRUE)
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_gg_ppt(gg, temp_ppt)
 ```
