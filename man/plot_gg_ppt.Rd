@@ -4,9 +4,18 @@
 \alias{plot_gg_ppt}
 \title{Plot ggplot object to ppt}
 \usage{
-plot_gg_ppt(gg, out_ppt, height = 6, width = 6, left = 5, top = 5,
-  inches = FALSE, sep_legend = FALSE, new_slide = FALSE,
-  overwrite = FALSE)
+plot_gg_ppt(
+  gg,
+  out_ppt,
+  height = 6,
+  width = 6,
+  left = 5,
+  top = 5,
+  inches = FALSE,
+  sep_legend = FALSE,
+  new_slide = FALSE,
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{gg}{ggplot object}

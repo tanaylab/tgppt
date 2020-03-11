@@ -4,8 +4,17 @@
 \alias{plot_base_ppt}
 \title{Plot base R plots to ppt}
 \usage{
-plot_base_ppt(code, out_ppt, height = 6, width = 6, left = 5,
-  top = 5, inches = FALSE, new_slide = FALSE, overwrite = FALSE)
+plot_base_ppt(
+  code,
+  out_ppt,
+  height = 6,
+  width = 6,
+  left = 5,
+  top = 5,
+  inches = FALSE,
+  new_slide = FALSE,
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{code}{code that generates plot}

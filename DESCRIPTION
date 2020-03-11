@@ -1,6 +1,6 @@
 Package: tgppt
 Title: Tanay Group Powerpoint Utils
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person(given = "Aviezer",
            family = "Lifshitz",
@@ -17,9 +17,9 @@ Imports:
     glue,
     grid,
     magrittr,
-    officer,
+    officer (>= 0.3.7),
     purrr,
-    rvg,
+    rvg (>= 0.2.4),
     tidyr,
     stringr,
     ggrastr
@@ -32,4 +32,4 @@ Encoding: UTF-8
 Language: es
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2

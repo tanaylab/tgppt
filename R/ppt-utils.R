@@ -32,12 +32,33 @@ new_ppt <- function(fn) {
 #' plot_gg_ppt(gg, temp_ppt)
 #' @export
 plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, new_slide = FALSE, overwrite = FALSE) {
-    if (sep_legend) {
-        plot_base_ppt(code = print(gg + theme(legend.position = "none")), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide, overwrite = overwrite)
-        plot_base_ppt(code = print(grid::grid.draw(cowplot::get_legend(gg))), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = FALSE, overwrite = overwrite)
-    } else {
-        plot_base_ppt(code = print(gg), out_ppt = out_ppt, height = height, width = width, left = left, top = top, inches = inches, new_slide = new_slide)
+    cm2inch <- 1
+    if (!inches) {
+        cm2inch <- 2.54
     }
+
+    if (!file.exists(out_ppt) || overwrite) {
+        ppt <- read_pptx(system.file("ppt", "template.pptx", package = "tgppt"))
+    } else {
+        ppt <- read_pptx(out_ppt)
+        if (new_slide) {
+            ppt <- ppt %>% add_slide(layout = layout_summary(ppt)$layout[1], master = layout_summary(ppt)$master[1])
+        }
+    }
+    
+    if (sep_legend) {
+        p <- dml(ggobj = gg + theme(legend.position = "none"))
+        ppt <- ppt %>% ph_with(p, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))        
+
+        legend <- dml(grid::grid.draw(cowplot::get_legend(gg)))
+        ppt <- ppt %>% ph_with(legend, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))       
+    } else {
+        code <- dml(ggobj = gg)
+
+        ppt <- ppt %>% ph_with(code, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+    }
+
+    print(ppt, target = out_ppt)
 }
 
 #' Plot base R plots to ppt
@@ -72,8 +93,18 @@ plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 
         if (new_slide) {
             ppt <- ppt %>% add_slide(layout = layout_summary(ppt)$layout[1], master = layout_summary(ppt)$master[1])
         }
-    }
+    }    
 
-    ppt <- ppt %>% ph_with_vg_at(code = code, height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch)
+    out <- list()
+    out$code <- enquo(code)    
+    out$bg <- "white"
+    out$fonts <- list()
+    out$pointsize <- 12
+    out$editable <- TRUE
+    class(out) <- "dml"
+
+
+    ppt <- ppt %>% ph_with(out, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+
     print(ppt, target = out_ppt)
 }

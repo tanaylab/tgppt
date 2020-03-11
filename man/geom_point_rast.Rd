@@ -4,10 +4,19 @@
 \alias{geom_point_rast}
 \title{Raster version of geom_point}
 \usage{
-geom_point_rast(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", ..., na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, raster.width = NULL, raster.height = NULL,
-  raster.dpi = 300)
+geom_point_rast(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  ...,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  raster.width = NULL,
+  raster.height = NULL,
+  raster.dpi = 300
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or

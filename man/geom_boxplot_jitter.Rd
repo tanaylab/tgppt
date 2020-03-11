@@ -4,11 +4,22 @@
 \alias{geom_boxplot_jitter}
 \title{Raster version of geom_boxplot with jittering of outliers}
 \usage{
-geom_boxplot_jitter(mapping = NULL, data = NULL, stat = "boxplot",
-  position = "dodge", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ..., outlier.jitter.width = NULL,
-  outlier.jitter.height = 0, raster = FALSE, raster.dpi = 300,
-  raster.width = NULL, raster.height = NULL)
+geom_boxplot_jitter(
+  mapping = NULL,
+  data = NULL,
+  stat = "boxplot",
+  position = "dodge",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...,
+  outlier.jitter.width = NULL,
+  outlier.jitter.height = 0,
+  raster = FALSE,
+  raster.dpi = 300,
+  raster.width = NULL,
+  raster.height = NULL
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
