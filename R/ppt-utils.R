@@ -64,7 +64,7 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
     } else if (rasterize_plot) {        
         
         # plot the panel and other elements separately
-        gt <- cowplot::as_gtable(p)
+        gt <- cowplot::as_gtable(gg)
         
         # Plot the panel to png         
         gt_panel <- gt

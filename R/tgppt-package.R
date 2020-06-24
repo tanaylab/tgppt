@@ -7,8 +7,6 @@
 #' @import stringr
 #' @import rvg
 #' @import officer
-#' @importFrom ggrastr geom_point_rast
-#' @importFrom ggrastr geom_boxplot_jitter
 "_PACKAGE"
 
 # The following block is used by usethis to automatically manage

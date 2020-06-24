@@ -34,7 +34,6 @@ Plot base R directly to a powerpoint presentation:
 library(tgppt)
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_base_ppt({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
-#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e3772d48e9.pptx"
 ```
 
 Plot ggplot to a powerpoint presentation:
@@ -45,7 +44,6 @@ library(ggplot2)
 gg <- ggplot(mtcars, aes(x=mpg, y=drat)) + geom_point()
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_gg_ppt(gg, temp_ppt)
-#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e37c34ee3f.pptx"
 ```
 
 Create a new powerpoint file:
@@ -61,27 +59,11 @@ Use “Arial” font based ggplot theme:
 ggplot2::theme_set(theme_arial(8))
 ```
 
-## Note on plotting a large number of points
+## Rasterize ggplot plotting area
 
-Powerpoint might crash when plotting a large number of points, so it is
-advised to use the a rasterized version of geom\_point:
-
-``` r
-library(tgppt)
-library(ggplot2)
-gg <- ggplot() + geom_point_rast(aes(x=rnorm(1000), y=rnorm(1000)))
-temp_ppt <- tempfile(fileext = ".pptx")
-plot_gg_ppt(gg, temp_ppt)
-#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e34fe2d700.pptx"
-```
-
-The same problem might occur when plotting a boxplot with many outliers:
+Powerpoint might crash when plotting a large number of points. To avoid
+that, set `rasterize_plot` to `TRUE`:
 
 ``` r
-library(tgppt)
-library(ggplot2)
-gg <- ggplot() + geom_boxplot_jitter(aes(y=rt(1000, df=3), x=as.factor(1:1000 %% 2)), outlier.jitter.width = 0.1, raster = TRUE)
-temp_ppt <- tempfile(fileext = ".pptx")
-plot_gg_ppt(gg, temp_ppt)
-#> [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e3a71b796.pptx"
+plot_gg_ppt(gg, temp_ppt, rasterize_plot = TRUE)
 ```

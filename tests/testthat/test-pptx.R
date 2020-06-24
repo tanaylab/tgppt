@@ -40,6 +40,13 @@ test_that("legend is not created on a separate slide", {
     expect_equal(length(table(officer::pptx_summary(ppt)$slide_id)), 1)
 })
 
+test_that("pptx file is generated (ggplot) when rasterize_plot is TRUE", {
+    gg <- ggplot(mtcars, aes(x = mpg, y = drat, color = factor(am))) + geom_point()
+    temp_ppt <- tempfile(fileext = ".pptx")
+    plot_gg_ppt(gg, temp_ppt, rasterize_plot = TRUE)
+    expect_true(file.exists(temp_ppt))
+})
+
 test_that("New slide is generated", {
     temp_ppt <- tempfile(fileext = ".pptx")
     plot_base_ppt({

@@ -22,7 +22,6 @@ Imports:
     rvg (>= 0.2.4),
     tidyr,
     stringr,
-    ggrastr,
     grDevices
 Suggests: 
     covr,
