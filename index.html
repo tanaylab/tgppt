@@ -84,38 +84,24 @@
 <p>Plot base R directly to a powerpoint presentation:</p>
 <div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tgppt</span>)
 <span class="no">temp_ppt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="kw">fileext</span> <span class="kw">=</span> <span class="st">".pptx"</span>)
-<span class="fu"><a href="reference/plot_base_ppt.html">plot_base_ppt</a></span>({<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">mtcars</span>$<span class="no">mpg</span>, <span class="no">mtcars</span>$<span class="no">drat</span>)}, <span class="no">temp_ppt</span>)
-<span class="co">#&gt; [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e3772d48e9.pptx"</span></pre></div>
+<span class="fu"><a href="reference/plot_base_ppt.html">plot_base_ppt</a></span>({<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">mtcars</span>$<span class="no">mpg</span>, <span class="no">mtcars</span>$<span class="no">drat</span>)}, <span class="no">temp_ppt</span>)</pre></div>
 <p>Plot ggplot to a powerpoint presentation:</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tgppt</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 <span class="no">gg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">mpg</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">drat</span>)) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>()
 <span class="no">temp_ppt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="kw">fileext</span> <span class="kw">=</span> <span class="st">".pptx"</span>)
-<span class="fu"><a href="reference/plot_gg_ppt.html">plot_gg_ppt</a></span>(<span class="no">gg</span>, <span class="no">temp_ppt</span>)
-<span class="co">#&gt; [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e37c34ee3f.pptx"</span></pre></div>
+<span class="fu"><a href="reference/plot_gg_ppt.html">plot_gg_ppt</a></span>(<span class="no">gg</span>, <span class="no">temp_ppt</span>)</pre></div>
 <p>Create a new powerpoint file:</p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tgppt</span>)
 <span class="fu"><a href="reference/new_ppt.html">new_ppt</a></span>(<span class="st">"myfile.pptx"</span>)</pre></div>
 <p>Use “Arial” font based ggplot theme:</p>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span>(<span class="fu"><a href="reference/theme_arial.html">theme_arial</a></span>(<span class="fl">8</span>))</pre></div>
 </div>
-<div id="note-on-plotting-a-large-number-of-points" class="section level2">
+<div id="rasterize-ggplot-plotting-area" class="section level2">
 <h2 class="hasAnchor">
-<a href="#note-on-plotting-a-large-number-of-points" class="anchor"></a>Note on plotting a large number of points</h2>
-<p>Powerpoint might crash when plotting a large number of points, so it is advised to use the a rasterized version of geom_point:</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tgppt</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
-<span class="no">gg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() + <span class="fu"><a href="reference/geom_point_rast.html">geom_point_rast</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">1000</span>), <span class="kw">y</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">1000</span>)))
-<span class="no">temp_ppt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="kw">fileext</span> <span class="kw">=</span> <span class="st">".pptx"</span>)
-<span class="fu"><a href="reference/plot_gg_ppt.html">plot_gg_ppt</a></span>(<span class="no">gg</span>, <span class="no">temp_ppt</span>)
-<span class="co">#&gt; [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e34fe2d700.pptx"</span></pre></div>
-<p>The same problem might occur when plotting a boxplot with many outliers:</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tgppt</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
-<span class="no">gg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() + <span class="fu"><a href="reference/geom_boxplot_jitter.html">geom_boxplot_jitter</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">y</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">rt</a></span>(<span class="fl">1000</span>, <span class="kw">df</span><span class="kw">=</span><span class="fl">3</span>), <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="fl">1</span>:<span class="fl">1000</span> <span class="kw">%%</span> <span class="fl">2</span>)), <span class="kw">outlier.jitter.width</span> <span class="kw">=</span> <span class="fl">0.1</span>, <span class="kw">raster</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">temp_ppt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="kw">fileext</span> <span class="kw">=</span> <span class="st">".pptx"</span>)
-<span class="fu"><a href="reference/plot_gg_ppt.html">plot_gg_ppt</a></span>(<span class="no">gg</span>, <span class="no">temp_ppt</span>)
-<span class="co">#&gt; [1] "/private/var/folders/13/t30dpv4n43qcb40g1mdzwgq00000gp/T/RtmpoOcEx7/file16e3a71b796.pptx"</span></pre></div>
+<a href="#rasterize-ggplot-plotting-area" class="anchor"></a>Rasterize ggplot plotting area</h2>
+<p>Powerpoint might crash when plotting a large number of points. To avoid that, set <code>rasterize_plot</code> to <code>TRUE</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="reference/plot_gg_ppt.html">plot_gg_ppt</a></span>(<span class="no">gg</span>, <span class="no">temp_ppt</span>, <span class="kw">rasterize_plot</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
 </div>
 </div>
   </div>
