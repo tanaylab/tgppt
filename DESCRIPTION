@@ -22,7 +22,8 @@ Imports:
     rvg (>= 0.2.4),
     tidyr,
     stringr,
-    ggrastr
+    ggrastr,
+    grDevices
 Suggests: 
     covr,
     testthat (>= 2.1.0)    
