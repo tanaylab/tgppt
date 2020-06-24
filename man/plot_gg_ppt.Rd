@@ -14,6 +14,7 @@ plot_gg_ppt(
   inches = FALSE,
   sep_legend = FALSE,
   transparent_bg = TRUE,
+  rasterize_plot = FALSE,
   new_slide = FALSE,
   overwrite = FALSE
 )
@@ -36,6 +37,8 @@ plot_gg_ppt(
 \item{sep_legend}{plot legend and plot separatly}
 
 \item{transparent_bg}{make background of the plot transparent}
+
+\item{rasterize_plot}{rasterize the plotting panel}
 
 \item{new_slide}{add plot to a new slide}
 
