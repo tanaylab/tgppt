@@ -21,6 +21,7 @@ new_ppt <- function(fn) {
 #' @param top top alignment in cm
 #' @param inches measures are given in inches
 #' @param sep_legend plot legend and plot separatly
+#' @param transparent_bg make background of the plot transparent
 #' @param new_slide add plot to a new slide
 #' @param overwrite overwrite existing file
 #'
@@ -31,7 +32,7 @@ new_ppt <- function(fn) {
 #' temp_ppt <- tempfile(fileext = ".pptx")
 #' plot_gg_ppt(gg, temp_ppt)
 #' @export
-plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, new_slide = FALSE, overwrite = FALSE) {
+plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, transparent_bg = TRUE, new_slide = FALSE, overwrite = FALSE) {
     cm2inch <- 1
     if (!inches) {
         cm2inch <- 2.54
@@ -45,15 +46,22 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
             ppt <- ppt %>% add_slide(layout = layout_summary(ppt)$layout[1], master = layout_summary(ppt)$master[1])
         }
     }
+
+    if (transparent_bg){
+        gg <- gg + theme(
+            panel.background = element_rect(fill = "transparent", color = NA),
+            plot.background = element_rect(fill = "transparent", color = NA)
+        )
+    }
     
     if (sep_legend) {
-        p <- dml(ggobj = gg + theme(legend.position = "none"))
+        p <- dml(ggobj = gg + theme(legend.position = "none"), bg = "transparent")
         ppt <- ppt %>% ph_with(p, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))        
 
-        legend <- dml(grid::grid.draw(cowplot::get_legend(gg)))
+        legend <- dml(grid::grid.draw(cowplot::get_legend(gg)), bg = "transparent")
         ppt <- ppt %>% ph_with(legend, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))       
     } else {
-        code <- dml(ggobj = gg)
+        code <- dml(ggobj = gg, bg = "transparent")
 
         ppt <- ppt %>% ph_with(code, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
     }

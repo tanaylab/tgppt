@@ -13,6 +13,7 @@ plot_gg_ppt(
   top = 5,
   inches = FALSE,
   sep_legend = FALSE,
+  transparent_bg = TRUE,
   new_slide = FALSE,
   overwrite = FALSE
 )
@@ -33,6 +34,8 @@ plot_gg_ppt(
 \item{inches}{measures are given in inches}
 
 \item{sep_legend}{plot legend and plot separatly}
+
+\item{transparent_bg}{make background of the plot transparent}
 
 \item{new_slide}{add plot to a new slide}
 
