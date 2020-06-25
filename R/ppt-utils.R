@@ -27,9 +27,10 @@ new_ppt <- function(fn) {
 #' @param overwrite overwrite existing file
 #'
 #' @examples
-#' 
+#'
 #' library(ggplot2)
-#' gg <- ggplot(mtcars, aes(x = mpg, y = drat)) + geom_point()
+#' gg <- ggplot(mtcars, aes(x = mpg, y = drat)) +
+#'     geom_point()
 #' temp_ppt <- tempfile(fileext = ".pptx")
 #' plot_gg_ppt(gg, temp_ppt)
 #' @export
@@ -48,37 +49,37 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
         }
     }
 
-    if (transparent_bg){
+    if (transparent_bg) {
         gg <- gg + theme(
             panel.background = element_rect(fill = "transparent", color = NA),
             plot.background = element_rect(fill = "transparent", color = NA)
         )
     }
-    
+
     if (sep_legend) {
         p <- dml(ggobj = gg + theme(legend.position = "none"), bg = "transparent")
-        ppt <- ppt %>% ph_with(p, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))        
+        ppt <- ppt %>% ph_with(p, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
 
         legend <- dml(grid::grid.draw(cowplot::get_legend(gg)), bg = "transparent")
-        ppt <- ppt %>% ph_with(legend, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))       
-    } else if (rasterize_plot) {        
-        
+        ppt <- ppt %>% ph_with(legend, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+    } else if (rasterize_plot) {
+
         # plot the panel and other elements separately
         gt <- cowplot::as_gtable(gg)
-        
-        # Plot the panel to png         
+
+        # Plot the panel to png
         gt_panel <- gt
-        gt_panel$grobs <- gt$grobs %>% modify_at(grep("panel", gt$layout$name, invert=TRUE), ~ grid::nullGrob())
+        gt_panel$grobs <- gt$grobs %>% modify_at(grep("panel", gt$layout$name, invert = TRUE), ~ grid::nullGrob())
 
         old_dev <- grDevices::dev.cur()
         fn <- tempfile(fileext = ".png")
-        grDevices::png(fn, width = width / cm2inch, height = height / cm2inch, units="in", res=300)
-        on.exit(utils::capture.output({            
+        grDevices::png(fn, width = width / cm2inch, height = height / cm2inch, units = "in", res = 300)
+        on.exit(utils::capture.output({
             if (old_dev > 1) grDevices::dev.set(old_dev)
         }))
         grid::grid.draw(gt_panel)
         grDevices::dev.off()
-        
+
         # Plot other elements as vector graphics
         gt_other <- gt
         gt_other$grobs <- gt$grobs %>% modify_at(grep("panel", gt$layout$name), ~ grid::nullGrob())
@@ -86,9 +87,8 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
 
         ppt <- ppt %>% ph_with(external_img(fn), ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
         plot <- dml(grid::grid.draw(gt_other), bg = "transparent")
-        ppt <- ppt %>% ph_with(plot, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))  
+        ppt <- ppt %>% ph_with(plot, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
     } else {
-
         code <- dml(ggobj = gg, bg = "transparent")
 
         ppt <- ppt %>% ph_with(code, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
@@ -110,11 +110,14 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
 #' @param overwrite overwrite existing file
 #'
 #' @examples
-#' 
+#'
 #' temp_ppt <- tempfile(fileext = ".pptx")
-#' plot_base_ppt({
-#'     plot(mtcars$mpg, mtcars$drat)
-#' }, temp_ppt)
+#' plot_base_ppt(
+#'     {
+#'         plot(mtcars$mpg, mtcars$drat)
+#'     },
+#'     temp_ppt
+#' )
 #' @export
 plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, new_slide = FALSE, overwrite = FALSE) {
     cm2inch <- 1
@@ -129,10 +132,10 @@ plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 
         if (new_slide) {
             ppt <- ppt %>% add_slide(layout = layout_summary(ppt)$layout[1], master = layout_summary(ppt)$master[1])
         }
-    }    
+    }
 
     out <- list()
-    out$code <- enquo(code)    
+    out$code <- enquo(code)
     out$bg <- "white"
     out$fonts <- list()
     out$pointsize <- 12

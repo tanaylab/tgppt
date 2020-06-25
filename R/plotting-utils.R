@@ -27,4 +27,3 @@ theme_arial <- function(size = 8) {
 vertical_labs <- function() {
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 }
-
