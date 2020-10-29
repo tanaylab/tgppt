@@ -23,6 +23,7 @@ new_ppt <- function(fn) {
 #' @param sep_legend plot legend and plot separatly
 #' @param transparent_bg make background of the plot transparent
 #' @param rasterize_plot rasterize the plotting panel
+#' @param res resolution of png used to generate rasterized plot
 #' @param new_slide add plot to a new slide
 #' @param overwrite overwrite existing file
 #'
@@ -34,7 +35,7 @@ new_ppt <- function(fn) {
 #' temp_ppt <- tempfile(fileext = ".pptx")
 #' plot_gg_ppt(gg, temp_ppt)
 #' @export
-plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, transparent_bg = TRUE, rasterize_plot = FALSE, new_slide = FALSE, overwrite = FALSE) {
+plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, transparent_bg = TRUE, rasterize_plot = FALSE, res = 300, new_slide = FALSE, overwrite = FALSE) {
     cm2inch <- 1
     if (!inches) {
         cm2inch <- 2.54
@@ -73,7 +74,7 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
 
         old_dev <- grDevices::dev.cur()
         fn <- tempfile(fileext = ".png")
-        grDevices::png(fn, width = width / cm2inch, height = height / cm2inch, units = "in", res = 300)
+        grDevices::png(fn, width = width / cm2inch, height = height / cm2inch, units = "in", res = res)
         on.exit(utils::capture.output({
             if (old_dev > 1) grDevices::dev.set(old_dev)
         }))
