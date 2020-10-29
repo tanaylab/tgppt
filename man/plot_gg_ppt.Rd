@@ -15,6 +15,7 @@ plot_gg_ppt(
   sep_legend = FALSE,
   transparent_bg = TRUE,
   rasterize_plot = FALSE,
+  res = 300,
   new_slide = FALSE,
   overwrite = FALSE
 )
@@ -40,6 +41,8 @@ plot_gg_ppt(
 
 \item{rasterize_plot}{rasterize the plotting panel}
 
+\item{res}{resolution of png used to generate rasterized plot}
+
 \item{new_slide}{add plot to a new slide}
 
 \item{overwrite}{overwrite existing file}
@@ -50,7 +53,8 @@ Plot ggplot object to ppt
 \examples{
 
 library(ggplot2)
-gg <- ggplot(mtcars, aes(x = mpg, y = drat)) + geom_point()
+gg <- ggplot(mtcars, aes(x = mpg, y = drat)) +
+    geom_point()
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_gg_ppt(gg, temp_ppt)
 }
