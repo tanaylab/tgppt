@@ -37,7 +37,7 @@ test_that("pptx file is generated (ggplot) with separate legend", {
     expect_true(file.exists(temp_ppt))
 })
 
-test_that("legend is not created on a separate slide", {
+test_that("legend is not created on a separate slide when new_slide is TRUE", {
     gg <- ggplot(mtcars, aes(x = mpg, y = drat, color = factor(am))) +
         geom_point()
     temp_ppt <- tempfile(fileext = ".pptx")
@@ -47,12 +47,34 @@ test_that("legend is not created on a separate slide", {
     expect_equal(length(table(officer::pptx_summary(ppt)$slide_id)), 1)
 })
 
+test_that("plot on a separate slide when new_slide is TRUE", {
+    gg <- ggplot(mtcars, aes(x = mpg, y = drat, color = factor(am))) +
+        geom_point()
+    temp_ppt <- tempfile(fileext = ".pptx")
+    plot_gg_ppt(gg, temp_ppt, new_slide = TRUE)
+    plot_gg_ppt(gg, temp_ppt, new_slide = TRUE)
+    expect_true(file.exists(temp_ppt))
+    ppt <- officer::read_pptx(temp_ppt)
+    expect_equal(length(table(officer::pptx_summary(ppt)$slide_id)), 2)
+})
+
 test_that("pptx file is generated (ggplot) when rasterize_plot is TRUE", {
     gg <- ggplot(mtcars, aes(x = mpg, y = drat, color = factor(am))) +
         geom_point()
     temp_ppt <- tempfile(fileext = ".pptx")
     plot_gg_ppt(gg, temp_ppt, rasterize_plot = TRUE)
     expect_true(file.exists(temp_ppt))
+})
+
+test_that("pptx file is generated (ggplot) when rasterize_plot is TRUE and there is an open device", {
+    grDevices::png(tempfile(fileext = ".png"))
+    plot(1)
+    gg <- ggplot(mtcars, aes(x = mpg, y = drat, color = factor(am))) +
+        geom_point()
+    temp_ppt <- tempfile(fileext = ".pptx")
+    plot_gg_ppt(gg, temp_ppt, rasterize_plot = TRUE)
+    expect_true(file.exists(temp_ppt))
+    dev.off()
 })
 
 
