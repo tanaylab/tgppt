@@ -57,13 +57,12 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
         )
     }
 
-    if (sep_legend) {
-        p <- dml(ggobj = gg + theme(legend.position = "none"), bg = "transparent")
-        ppt <- ppt %>% ph_with(p, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+    if (rasterize_plot) {
 
-        legend <- dml(grid::grid.draw(cowplot::get_legend(gg)), bg = "transparent")
-        ppt <- ppt %>% ph_with(legend, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
-    } else if (rasterize_plot) {
+        if (sep_legend){
+            leg <- cowplot::get_legend(gg)            
+            gg <- gg + theme(legend.position = "none")
+        }
 
         # plot the panel and other elements separately
         gt <- cowplot::as_gtable(gg)
@@ -89,10 +88,22 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
         ppt <- ppt %>% ph_with(external_img(fn), ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
         plot <- dml(grid::grid.draw(gt_other), bg = "transparent")
         ppt <- ppt %>% ph_with(plot, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
-    } else {
-        code <- dml(ggobj = gg, bg = "transparent")
 
-        ppt <- ppt %>% ph_with(code, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+        if (sep_legend){
+            legend <- dml(grid::grid.draw(leg), bg = "transparent")
+            ppt <- ppt %>% ph_with(legend, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+        }
+    } else {
+         if (sep_legend) {
+            p <- dml(ggobj = gg + theme(legend.position = "none"), bg = "transparent")
+            ppt <- ppt %>% ph_with(p, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+
+            legend <- dml(grid::grid.draw(cowplot::get_legend(gg)), bg = "transparent")
+            ppt <- ppt %>% ph_with(legend, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+        } else {
+            code <- dml(ggobj = gg, bg = "transparent")    
+            ppt <- ppt %>% ph_with(code, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+        }
     }
 
     print(ppt, target = out_ppt)

@@ -55,6 +55,15 @@ test_that("pptx file is generated (ggplot) when rasterize_plot is TRUE", {
     expect_true(file.exists(temp_ppt))
 })
 
+
+test_that("pptx file is generated (ggplot) when rasterize_plot is TRUE and sep_legend = TRUE", {
+    gg <- ggplot(mtcars, aes(x = mpg, y = drat, color = factor(am))) +
+        geom_point()
+    temp_ppt <- tempfile(fileext = ".pptx")
+    plot_gg_ppt(gg, temp_ppt, rasterize_plot = TRUE, sep_legend = TRUE)
+    expect_true(file.exists(temp_ppt))
+})
+
 test_that("New slide is generated", {
     temp_ppt <- tempfile(fileext = ".pptx")
     plot_base_ppt(

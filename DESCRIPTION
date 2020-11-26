@@ -1,6 +1,6 @@
 Package: tgppt
 Title: Tanay Group Powerpoint Utils
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: 
     person(given = "Aviezer",
            family = "Lifshitz",
