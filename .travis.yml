@@ -2,7 +2,7 @@
 
 language: R
 cache: packages
-before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+before_cache: Rscript -e 'remotes::install_github("r-lib/pkgdown#1276")'
 after_success:
     - Rscript -e 'covr::codecov()'
 deploy:
