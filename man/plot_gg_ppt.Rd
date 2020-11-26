@@ -15,6 +15,7 @@ plot_gg_ppt(
   sep_legend = FALSE,
   transparent_bg = TRUE,
   rasterize_plot = FALSE,
+  rasterize_legend = FALSE,
   res = 300,
   new_slide = FALSE,
   overwrite = FALSE
@@ -40,6 +41,8 @@ plot_gg_ppt(
 \item{transparent_bg}{make background of the plot transparent}
 
 \item{rasterize_plot}{rasterize the plotting panel}
+
+\item{rasterize_legend}{rasterize the legend panel. Works only when sep_legend=TRUE and rasterize_plot=TRUE}
 
 \item{res}{resolution of png used to generate rasterized plot}
 
