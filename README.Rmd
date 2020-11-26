@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/tanaylab/tgppt/branch/master/graph/badge.svg)](https://codecov.io/gh/tanaylab/tgppt?branch=master)
 <!-- badges: end -->
 
-The goal of tgppt is to provide handy functions to plot directly to powerpoint in R.
+The goal of tgppt is to provide handy functions to plot directly to powerpoint in R. It is based on the magnificent [officer](https://davidgohel.github.io/officer/) package from David Gohel. 
 
 ## Installation
 
