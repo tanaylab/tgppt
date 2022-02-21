@@ -18,7 +18,11 @@ plot_gg_ppt(
   rasterize_legend = FALSE,
   res = 300,
   new_slide = FALSE,
-  overwrite = FALSE
+  overwrite = FALSE,
+  legend_height = NULL,
+  legend_width = NULL,
+  legend_left = NULL,
+  legend_top = NULL
 )
 }
 \arguments{
@@ -49,6 +53,8 @@ plot_gg_ppt(
 \item{new_slide}{add plot to a new slide}
 
 \item{overwrite}{overwrite existing file}
+
+\item{legend_height, legend_width, legend_left, legend_top}{legend position and size in case \code{sep_legend=TRUE}. Similar to to heigh,width,left and top. By default - legend would be plotted to the right of the plot.}
 }
 \description{
 Plot ggplot object to ppt

@@ -1,6 +1,6 @@
 Package: tgppt
 Title: Tanay Group Powerpoint Utils
-Version: 0.0.5
+Version: 0.0.6
 Authors@R: 
     person(given = "Aviezer",
            family = "Lifshitz",
@@ -30,4 +30,4 @@ Encoding: UTF-8
 Language: es
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
