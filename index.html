@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,26 +33,20 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tgppt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.6</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/tanaylab/tgppt/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/tanaylab/tgppt/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -66,94 +62,111 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="tgppt" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#tgppt" class="anchor"></a>tgppt</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="tgppt">tgppt<a class="anchor" aria-label="anchor" href="#tgppt"></a>
+</h1></div>
 <!-- badges: start -->
 
-<p>The goal of tgppt is to provide handy functions to plot directly to powerpoint in R. It is based on the magnificent <a href="https://davidgohel.github.io/officer/">officer</a> package from David Gohel.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<p>The goal of tgppt is to provide handy functions to plot directly to powerpoint in R. It is based on the magnificent <a href="https://davidgohel.github.io/officer/" class="external-link">officer</a> package from David Gohel.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>You can install tgppt with:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"tanaylab/tgppt"</span>)</pre></div>
+<div class="sourceCode"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"tanaylab/tgppt"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>Plot base R directly to a powerpoint presentation:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tgppt</span>)
+<div class="sourceCode"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tanaylab/tgppt" class="external-link">tgppt</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'tgppt'</span>
 <span class="co">#&gt; The following object is masked from 'package:alutil':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     vertical_labs</span>
-<span class="no">temp_ppt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="kw">fileext</span> <span class="kw">=</span> <span class="st">".pptx"</span>)
-<span class="fu"><a href="reference/plot_base_ppt.html">plot_base_ppt</a></span>({<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">mtcars</span>$<span class="no">mpg</span>, <span class="no">mtcars</span>$<span class="no">drat</span>)}, <span class="no">temp_ppt</span>)</pre></div>
+<span class="va">temp_ppt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".pptx"</span><span class="op">)</span>
+<span class="fu"><a href="reference/plot_base_ppt.html">plot_base_ppt</a></span><span class="op">(</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">drat</span><span class="op">)</span><span class="op">}</span>, <span class="va">temp_ppt</span><span class="op">)</span></code></pre></div>
 <p>Plot ggplot to a powerpoint presentation:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tgppt</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
-<span class="no">gg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">mpg</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">drat</span>)) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>()
-<span class="no">temp_ppt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="kw">fileext</span> <span class="kw">=</span> <span class="st">".pptx"</span>)
-<span class="fu"><a href="reference/plot_gg_ppt.html">plot_gg_ppt</a></span>(<span class="no">gg</span>, <span class="no">temp_ppt</span>)</pre></div>
+<div class="sourceCode"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tanaylab/tgppt" class="external-link">tgppt</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="va">gg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">mpg</span>, y<span class="op">=</span><span class="va">drat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">temp_ppt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".pptx"</span><span class="op">)</span>
+<span class="fu"><a href="reference/plot_gg_ppt.html">plot_gg_ppt</a></span><span class="op">(</span><span class="va">gg</span>, <span class="va">temp_ppt</span><span class="op">)</span></code></pre></div>
 <p>Create a new powerpoint file:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tgppt</span>)
-<span class="fu"><a href="reference/new_ppt.html">new_ppt</a></span>(<span class="st">"myfile.pptx"</span>)</pre></div>
+<div class="sourceCode"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tanaylab/tgppt" class="external-link">tgppt</a></span><span class="op">)</span>
+<span class="fu"><a href="reference/new_ppt.html">new_ppt</a></span><span class="op">(</span><span class="st">"myfile.pptx"</span><span class="op">)</span></code></pre></div>
 <p>Use “Arial” font based ggplot theme:</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span>(<span class="fu"><a href="reference/theme_arial.html">theme_arial</a></span>(<span class="fl">8</span>))</pre></div>
+<div class="sourceCode"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html" class="external-link">theme_set</a></span><span class="op">(</span><span class="fu"><a href="reference/theme_arial.html">theme_arial</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="rasterize-ggplot-plotting-area" class="section level2">
-<h2 class="hasAnchor">
-<a href="#rasterize-ggplot-plotting-area" class="anchor"></a>Rasterize ggplot plotting area</h2>
+<div class="section level2">
+<h2 id="rasterize-ggplot-plotting-area">Rasterize ggplot plotting area<a class="anchor" aria-label="anchor" href="#rasterize-ggplot-plotting-area"></a>
+</h2>
 <p>Powerpoint might crash when plotting a large number of points. To avoid that, set <code>rasterize_plot</code> to <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="reference/plot_gg_ppt.html">plot_gg_ppt</a></span>(<span class="no">gg</span>, <span class="no">temp_ppt</span>, <span class="kw">rasterize_plot</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
+<div class="sourceCode"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/plot_gg_ppt.html">plot_gg_ppt</a></span><span class="op">(</span><span class="va">gg</span>, <span class="va">temp_ppt</span>, rasterize_plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/tanaylab/tgppt/">https://​github.com/​tanaylab/​tgppt/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/tanaylab/tgppt/issues">https://​github.com/​tanaylab/​tgppt/​issues</a>
-</li>
+<li><a href="https://github.com/tanaylab/tgppt/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/tanaylab/tgppt/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing tgppt</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Aviezer Lifshitz <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://CRAN.R-project.org/package=tgppt"><img src="https://www.r-pkg.org/badges/version/tgppt" alt="CRAN status"></a></li>
-<li><a href="https://travis-ci.org/tanaylab/tgppt"><img src="https://travis-ci.com/tanaylab/tgppt.svg?branch=master" alt="Travis build status"></a></li>
-<li><a href="https://codecov.io/gh/tanaylab/tgppt?branch=master"><img src="https://codecov.io/gh/tanaylab/tgppt/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://CRAN.R-project.org/package=tgppt" class="external-link"><img src="https://www.r-pkg.org/badges/version/tgppt" alt="CRAN status"></a></li>
+<li><a href="https://travis-ci.org/tanaylab/tgppt" class="external-link"><img src="https://travis-ci.com/tanaylab/tgppt.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://codecov.io/gh/tanaylab/tgppt?branch=master" class="external-link"><img src="https://codecov.io/gh/tanaylab/tgppt/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Aviezer Lifshitz.</p>
+  <p></p>
+<p>Developed by Aviezer Lifshitz.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -161,6 +174,8 @@
 
   
 
+
+  
 
   </body>
 </html>
