@@ -95,7 +95,7 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
             if (rasterize_legend) {
                 fn_leg <- tempfile(fileext = ".png")
                 rasterize_grob(leg, fn_leg, width, height, res, cm2inch)
-                ppt <- ppt %>% ph_with(external_img(fn_leg), ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+                ppt <- ppt %>% ph_with(external_img(fn_leg), ph_location(height = legend_height / cm2inch, width = legend_width / cm2inch, left = legend_left / cm2inch, top = legend_top / cm2inch))
             } else {
                 legend <- dml(grid::grid.draw(leg), bg = "transparent")
                 ppt <- ppt %>% ph_with(legend, ph_location(height = legend_height / cm2inch, width = legend_width / cm2inch, left = legend_left / cm2inch, top = legend_top / cm2inch))
