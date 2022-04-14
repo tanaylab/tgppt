@@ -2,10 +2,11 @@
 #'
 #' @param fn file name of the new pptx file
 #'
-#' @return logical value indicating if the operation succeded
+#' @return logical value indicating if the operation succeeded
 #'
 #' @examples
-#' new_ppt("my_ppt.pptx")
+#' ppt_file <- tempfile(fileext = ".pptx")
+#' new_ppt(ppt_file)
 #' @export
 new_ppt <- function(fn) {
     file.copy(system.file("ppt", "template.pptx", package = "tgppt"), fn)
@@ -20,14 +21,14 @@ new_ppt <- function(fn) {
 #' @param left left alignment in cm
 #' @param top top alignment in cm
 #' @param inches measures are given in inches
-#' @param sep_legend plot legend and plot separatly
+#' @param sep_legend plot legend and plot separately
 #' @param transparent_bg make background of the plot transparent
 #' @param rasterize_plot rasterize the plotting panel
 #' @param rasterize_legend rasterize the legend panel. Works only when sep_legend=TRUE and rasterize_plot=TRUE
 #' @param res resolution of png used to generate rasterized plot
 #' @param new_slide add plot to a new slide
 #' @param overwrite overwrite existing file
-#' @param legend_height,legend_width,legend_left,legend_top legend position and size in case \code{sep_legend=TRUE}. Similar to to heigh,width,left and top. By default - legend would be plotted to the right of the plot.
+#' @param legend_height,legend_width,legend_left,legend_top legend position and size in case \code{sep_legend=TRUE}. Similar to to height,width,left and top. By default - legend would be plotted to the right of the plot.
 #'
 #' @examples
 #'

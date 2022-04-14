@@ -40,7 +40,7 @@ plot_gg_ppt(
 
 \item{inches}{measures are given in inches}
 
-\item{sep_legend}{plot legend and plot separatly}
+\item{sep_legend}{plot legend and plot separately}
 
 \item{transparent_bg}{make background of the plot transparent}
 
@@ -54,7 +54,7 @@ plot_gg_ppt(
 
 \item{overwrite}{overwrite existing file}
 
-\item{legend_height, legend_width, legend_left, legend_top}{legend position and size in case \code{sep_legend=TRUE}. Similar to to heigh,width,left and top. By default - legend would be plotted to the right of the plot.}
+\item{legend_height, legend_width, legend_left, legend_top}{legend position and size in case \code{sep_legend=TRUE}. Similar to to height,width,left and top. By default - legend would be plotted to the right of the plot.}
 }
 \description{
 Plot ggplot object to ppt

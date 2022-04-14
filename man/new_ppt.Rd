@@ -10,11 +10,12 @@ new_ppt(fn)
 \item{fn}{file name of the new pptx file}
 }
 \value{
-logical value indicating if the operation succeded
+logical value indicating if the operation succeeded
 }
 \description{
 Generate an empty pptx file
 }
 \examples{
-new_ppt("my_ppt.pptx")
+ppt_file <- tempfile(fileext = ".pptx")
+new_ppt(ppt_file)
 }

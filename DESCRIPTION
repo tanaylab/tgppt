@@ -7,27 +7,24 @@ Authors@R:
            role = c("aut", "cre"),
            email = "aviezer.lifshitz@weizmann.ac.il")
 Description: Plot directly to powerpoint. Based on the officer package.
-License: GPL-3
+License: MIT + file LICENSE
 URL: https://github.com/tanaylab/tgppt
 BugReports: https://github.com/tanaylab/tgppt/issues
 Imports: 
     cowplot (>= 1.1.0),
-    dplyr,
-    ggplot2,
-    glue,
+    ggplot2,    
     grid,
-    magrittr,
     officer (>= 0.3.7),
     purrr,
     rvg (>= 0.2.4),
-    tidyr,
-    stringr,
-    grDevices
+    grDevices,
+    utils,
+    magrittr
 Suggests: 
     covr,
     testthat (>= 2.1.0)    
 Encoding: UTF-8
-Language: es
+Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2

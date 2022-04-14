@@ -1,10 +1,6 @@
 #' @keywords internal
-#' @import dplyr
-#' @import tidyr
 #' @import ggplot2
-#' @importFrom glue glue
-#' @import purrr
-#' @import stringr
+#' @importFrom purrr modify_at %||%
 #' @import rvg
 #' @import officer
 "_PACKAGE"
