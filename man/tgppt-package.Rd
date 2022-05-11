@@ -6,7 +6,7 @@
 \alias{tgppt-package}
 \title{tgppt: Tanay Group Powerpoint Utils}
 \description{
-Plot directly to powerpoint. Based on the officer package.
+Plot directly to Powerpoint. Based on the officer package.
 }
 \seealso{
 Useful links:

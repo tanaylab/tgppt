@@ -10,3 +10,5 @@
 ^pkgdown$
 ^codecov\.yml$
 ^.covrignore$
+^.gitignore$
+^\.git$
