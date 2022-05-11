@@ -12,7 +12,7 @@ coverage](https://codecov.io/gh/tanaylab/tgppt/branch/master/graph/badge.svg)](h
 <!-- badges: end -->
 
 The goal of tgppt is to provide handy functions to plot directly to
-powerpoint in R. It is based on the magnificent
+Powerpoint in R. It is based on the magnificent
 [officer](https://davidgohel.github.io/officer/) package by David Gohel.
 
 ## Installation
@@ -25,7 +25,7 @@ remotes::install_github("tanaylab/tgppt")
 
 ## Example
 
-Plot base R directly to a powerpoint presentation:
+Plot base R directly to a Powerpoint presentation:
 
 ``` r
 library(tgppt)
@@ -33,7 +33,7 @@ temp_ppt <- tempfile(fileext = ".pptx")
 plot_base_ppt({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
 ```
 
-Plot ggplot to a powerpoint presentation:
+Plot ggplot to a Powerpoint presentation:
 
 ``` r
 library(tgppt)
@@ -43,7 +43,7 @@ temp_ppt <- tempfile(fileext = ".pptx")
 plot_gg_ppt(gg, temp_ppt)
 ```
 
-Create a new powerpoint file:
+Create a new Powerpoint file:
 
 ``` r
 library(tgppt)
