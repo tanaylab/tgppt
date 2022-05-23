@@ -22,7 +22,8 @@ plot_gg_ppt(
   legend_height = NULL,
   legend_width = NULL,
   legend_left = NULL,
-  legend_top = NULL
+  legend_top = NULL,
+  tmpdir = tempdir()
 )
 }
 \arguments{
@@ -55,6 +56,8 @@ plot_gg_ppt(
 \item{overwrite}{overwrite existing file}
 
 \item{legend_height, legend_width, legend_left, legend_top}{legend position and size in case \code{sep_legend=TRUE}. Similar to to height,width,left and top. By default - legend would be plotted to the right of the plot.}
+
+\item{tmpdir}{temporary directory to store the rasterized png intermediate files}
 }
 \description{
 Plot ggplot object to ppt

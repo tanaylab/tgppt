@@ -29,6 +29,7 @@ new_ppt <- function(fn) {
 #' @param new_slide add plot to a new slide
 #' @param overwrite overwrite existing file
 #' @param legend_height,legend_width,legend_left,legend_top legend position and size in case \code{sep_legend=TRUE}. Similar to to height,width,left and top. By default - legend would be plotted to the right of the plot.
+#' @param tmpdir temporary directory to store the rasterized png intermediate files
 #'
 #' @examples
 #'
@@ -38,7 +39,7 @@ new_ppt <- function(fn) {
 #' temp_ppt <- tempfile(fileext = ".pptx")
 #' plot_gg_ppt(gg, temp_ppt)
 #' @export
-plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, transparent_bg = TRUE, rasterize_plot = FALSE, rasterize_legend = FALSE, res = 300, new_slide = FALSE, overwrite = FALSE, legend_height = NULL, legend_width = NULL, legend_left = NULL, legend_top = NULL) {
+plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, transparent_bg = TRUE, rasterize_plot = FALSE, rasterize_legend = FALSE, res = 300, new_slide = FALSE, overwrite = FALSE, legend_height = NULL, legend_width = NULL, legend_left = NULL, legend_top = NULL, tmpdir = tempdir()) {
     cm2inch <- 1
     if (!inches) {
         cm2inch <- 2.54
@@ -80,7 +81,7 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
         gt_panel <- gt
         gt_panel$grobs <- gt$grobs %>% modify_at(grep("panel", gt$layout$name, invert = TRUE), ~ grid::nullGrob())
 
-        fn <- tempfile(fileext = ".png")
+        fn <- tempfile(fileext = ".png", tmpdir = tmpdir)
         rasterize_grob(gt_panel, fn, width, height, res, cm2inch)
 
         # Plot other elements as vector graphics
@@ -94,7 +95,7 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
 
         if (sep_legend) {
             if (rasterize_legend) {
-                fn_leg <- tempfile(fileext = ".png")
+                fn_leg <- tempfile(fileext = ".png", tmpdir = tmpdir)
                 rasterize_grob(leg, fn_leg, width, height, res, cm2inch)
                 ppt <- ppt %>% ph_with(external_img(fn_leg), ph_location(height = legend_height / cm2inch, width = legend_width / cm2inch, left = legend_left / cm2inch, top = legend_top / cm2inch))
             } else {

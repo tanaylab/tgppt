@@ -1,3 +1,7 @@
+# tgppt 0.0.9 
+
+* Added an option to set the temporary directory in which png files are saved.
+
 # tgppt 0.0.8
 
 * Fix: changed template to A4

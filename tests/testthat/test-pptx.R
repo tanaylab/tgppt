@@ -66,6 +66,16 @@ test_that("pptx file is generated (ggplot) when rasterize_plot is TRUE", {
     expect_true(file.exists(temp_ppt))
 })
 
+test_that("pptx file is generated (ggplot) when rasterize_plot is TRUE and tmpdir is set", {
+    gg <- ggplot(mtcars, aes(x = mpg, y = drat, color = factor(am))) +
+        geom_point()
+    tmp_dir <- file.path(tempdir(), "test")
+    dir.create(file.path(tempdir(), "test"))
+    temp_ppt <- tempfile(fileext = ".pptx")
+    plot_gg_ppt(gg, temp_ppt, rasterize_plot = TRUE, tmpdir = tmp_dir)
+    expect_true(file.exists(temp_ppt))
+})
+
 test_that("pptx file is generated (ggplot) when rasterize_plot is TRUE and there is an open device", {
     grDevices::png(tempfile(fileext = ".png"))
     plot(1)
