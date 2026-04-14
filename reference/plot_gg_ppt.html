@@ -51,6 +51,7 @@
 <span>  transparent_bg <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  rasterize_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  rasterize_legend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  rasterize_text <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  res <span class="op">=</span> <span class="fl">300</span>,</span>
 <span>  new_slide <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -108,6 +109,10 @@
 
 <dt id="arg-rasterize-legend">rasterize_legend<a class="anchor" aria-label="anchor" href="#arg-rasterize-legend"></a></dt>
 <dd><p>rasterize the legend panel. Works only when sep_legend=TRUE and rasterize_plot=TRUE</p></dd>
+
+
+<dt id="arg-rasterize-text">rasterize_text<a class="anchor" aria-label="anchor" href="#arg-rasterize-text"></a></dt>
+<dd><p>rasterize text elements (geom_text, geom_label, geom_text_repel, etc.) within the panel. When FALSE (default), text grobs are kept as vector graphics even when rasterize_plot=TRUE.</p></dd>
 
 
 <dt id="arg-res">res<a class="anchor" aria-label="anchor" href="#arg-res"></a></dt>

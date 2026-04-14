@@ -6,6 +6,8 @@ Plot directly to Powerpoint. Based on the officer package.
 
 Useful links:
 
+- <https://tanaylab.github.io/tgppt/>
+
 - <https://github.com/tanaylab/tgppt>
 
 - Report bugs at <https://github.com/tanaylab/tgppt/issues>
