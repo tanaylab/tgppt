@@ -12,3 +12,5 @@
 ^.covrignore$
 ^.gitignore$
 ^\.git$
+^\.a5c$
+^Rplots\.pdf$

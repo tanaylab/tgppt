@@ -1,1 +1,5 @@
+url: https://tanaylab.github.io/tgppt/
 destination: docs
+
+template:
+  bootstrap: 5

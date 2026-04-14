@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 docs/
+.a5c/
+Rplots.pdf

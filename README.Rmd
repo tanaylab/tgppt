@@ -16,8 +16,9 @@ knitr::opts_chunk$set(
 # tgppt
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/tgppt)](https://CRAN.R-project.org/package=tgppt)
+[![R-CMD-check](https://github.com/tanaylab/tgppt/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tanaylab/tgppt/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/tanaylab/tgppt/branch/master/graph/badge.svg)](https://app.codecov.io/gh/tanaylab/tgppt?branch=master)
+[![pkgdown](https://github.com/tanaylab/tgppt/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/tanaylab/tgppt/actions/workflows/pkgdown.yaml)
 <!-- badges: end -->
 
 The goal of tgppt is to provide handy functions to plot directly to Powerpoint in R. It is based on the magnificent [officer](https://davidgohel.github.io/officer/) package by David Gohel. 
