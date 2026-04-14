@@ -8,6 +8,16 @@
 \description{
 Plot directly to Powerpoint. Based on the officer package.
 }
+\section{Options}{
+
+\describe{
+\item{\code{tgppt.template}}{Path to a custom PowerPoint template file (.pptx).
+When set, this template is used by default in \code{\link[=new_ppt]{new_ppt()}}, \code{\link[=plot_gg_ppt]{plot_gg_ppt()}},
+and \code{\link[=plot_base_ppt]{plot_base_ppt()}} instead of the bundled template. The \code{template}
+parameter in those functions takes precedence over this option.}
+}
+}
+
 \seealso{
 Useful links:
 \itemize{

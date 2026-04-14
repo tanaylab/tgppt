@@ -6,6 +6,16 @@
 \usage{
 vertical_labs()
 }
+\value{
+a \code{\link[ggplot2]{theme}} object that rotates x-axis labels to 90
+degrees
+}
 \description{
 Set x-axis vertical labels in ggplot2
+}
+\examples{
+library(ggplot2)
+ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +
+    geom_boxplot() +
+    vertical_labs()
 }

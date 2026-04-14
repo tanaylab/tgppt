@@ -1,6 +1,6 @@
 Package: tgppt
 Title: Tanay Group Powerpoint Utils
-Version: 0.0.10
+Version: 0.1.0
 Author: Aviezer Lifshitz [aut, cre]
 Maintainer: Aviezer Lifshitz <aviezer.lifshitz@weizmann.ac.il>
 Authors@R: 
@@ -23,6 +23,7 @@ Imports:
     utils,
     magrittr
 Suggests:
+    flextable,
     testthat (>= 2.1.0)
 Remotes: 
     davidgohel/rvg

@@ -9,6 +9,15 @@ theme_arial(size = 8)
 \arguments{
 \item{size}{base size of text}
 }
+\value{
+a \code{\link[ggplot2]{theme}} object
+}
 \description{
 A ggplot2 custom theme (based on 'ArialMT' font)
+}
+\examples{
+library(ggplot2)
+ggplot(mtcars, aes(x = mpg, y = drat)) +
+    geom_point() +
+    theme_arial()
 }
