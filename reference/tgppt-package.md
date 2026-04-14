@@ -2,6 +2,19 @@
 
 Plot directly to Powerpoint. Based on the officer package.
 
+## Options
+
+- `tgppt.template`:
+
+  Path to a custom PowerPoint template file (.pptx). When set, this
+  template is used by default in
+  [`new_ppt()`](https://tanaylab.github.io/tgppt/reference/new_ppt.md),
+  [`plot_gg_ppt()`](https://tanaylab.github.io/tgppt/reference/plot_gg_ppt.md),
+  and
+  [`plot_base_ppt()`](https://tanaylab.github.io/tgppt/reference/plot_base_ppt.md)
+  instead of the bundled template. The `template` parameter in those
+  functions takes precedence over this option.
+
 ## See also
 
 Useful links:

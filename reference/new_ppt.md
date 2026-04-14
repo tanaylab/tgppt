@@ -5,7 +5,7 @@ Generate an empty pptx file
 ## Usage
 
 ``` r
-new_ppt(fn)
+new_ppt(fn, template = NULL)
 ```
 
 ## Arguments
@@ -13,6 +13,11 @@ new_ppt(fn)
 - fn:
 
   file name of the new pptx file
+
+- template:
+
+  path to a custom pptx template file. When NULL, uses
+  `getOption("tgppt.template")` if set, otherwise the bundled template.
 
 ## Value
 

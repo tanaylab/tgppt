@@ -18,6 +18,7 @@ plot_gg_ppt(
   rasterize_plot = FALSE,
   rasterize_legend = FALSE,
   rasterize_text = FALSE,
+  rasterize_geoms = NULL,
   res = 300,
   new_slide = FALSE,
   overwrite = FALSE,
@@ -25,7 +26,10 @@ plot_gg_ppt(
   legend_width = NULL,
   legend_left = NULL,
   legend_top = NULL,
-  tmpdir = tempdir()
+  tmpdir = tempdir(),
+  template = NULL,
+  title = NULL,
+  title_fp = NULL
 )
 ```
 
@@ -82,6 +86,14 @@ plot_gg_ppt(
   within the panel. When FALSE (default), text grobs are kept as vector
   graphics even when rasterize_plot=TRUE.
 
+- rasterize_geoms:
+
+  character vector of geom name prefixes to selectively rasterize (e.g.,
+  `c("geom_point", "geom_tile")`). When not NULL, only the matching geom
+  layers within panel grobs are rasterized to PNG while the remaining
+  geom layers are rendered as vector DML. Setting this implicitly
+  enables `rasterize_plot`.
+
 - res:
 
   resolution of png used to generate rasterized plot
@@ -103,6 +115,25 @@ plot_gg_ppt(
 - tmpdir:
 
   temporary directory to store the rasterized png intermediate files
+
+- template:
+
+  path to a custom pptx template file. When NULL, uses
+  `getOption("tgppt.template")` if set, otherwise the bundled template.
+
+- title:
+
+  optional slide title string. When not NULL, a title text box is placed
+  above the plot.
+
+- title_fp:
+
+  an `fp_text` object controlling title font properties. When NULL (the
+  default), uses 18pt bold ArialMT.
+
+## Value
+
+invisible; called for its side effect of writing a pptx file.
 
 ## Examples
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tgppt</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">new_ppt</span><span class="op">(</span><span class="va">fn</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">new_ppt</span><span class="op">(</span><span class="va">fn</span>, template <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -48,6 +48,11 @@
 
 <dl><dt id="arg-fn">fn<a class="anchor" aria-label="anchor" href="#arg-fn"></a></dt>
 <dd><p>file name of the new pptx file</p></dd>
+
+
+<dt id="arg-template">template<a class="anchor" aria-label="anchor" href="#arg-template"></a></dt>
+<dd><p>path to a custom pptx template file. When NULL, uses
+<code>getOption("tgppt.template")</code> if set, otherwise the bundled template.</p></dd>
 
 </dl></div>
     <div class="section level2">

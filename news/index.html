@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tgppt</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,15 @@
       <small>Source: <a href="https://github.com/tanaylab/tgppt/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.0" id="tgppt-010">tgppt 0.1.0<a class="anchor" aria-label="anchor" href="#tgppt-010"></a></h2>
+<ul><li>Custom template path support: set a default template via <code>options(tgppt.template = "/path/to/template.pptx")</code> or pass the <code>template</code> parameter directly to <code><a href="../reference/new_ppt.html">new_ppt()</a></code>, <code><a href="../reference/plot_gg_ppt.html">plot_gg_ppt()</a></code>, <code><a href="../reference/plot_base_ppt.html">plot_base_ppt()</a></code>, and other functions.</li>
+<li>Slide title support: new <code>title</code> and <code>title_fp</code> parameters on <code><a href="../reference/plot_gg_ppt.html">plot_gg_ppt()</a></code>, <code><a href="../reference/plot_base_ppt.html">plot_base_ppt()</a></code>, and <code><a href="../reference/add_table_ppt.html">add_table_ppt()</a></code> to place a formatted title text box above the content.</li>
+<li>New <code><a href="../reference/plot_multi_gg_ppt.html">plot_multi_gg_ppt()</a></code> function to arrange multiple ggplot objects in a grid layout on a single PowerPoint slide.</li>
+<li>New <code><a href="../reference/plot_list_ppt.html">plot_list_ppt()</a></code> function to create a PowerPoint file with one slide per plot from a list of ggplot objects.</li>
+<li>New <code><a href="../reference/add_table_ppt.html">add_table_ppt()</a></code> function to render a data frame as a formatted table on a PowerPoint slide (requires the flextable package).</li>
+<li>New <code>rasterize_geoms</code> parameter in <code><a href="../reference/plot_gg_ppt.html">plot_gg_ppt()</a></code> for selective geom rasterization: specify which geom layers to rasterize while keeping the rest as vector graphics.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.10" id="tgppt-0010">tgppt 0.0.10<a class="anchor" aria-label="anchor" href="#tgppt-0010"></a></h2>
 <ul><li>Added <code>rasterize_text</code> parameter to <code><a href="../reference/plot_gg_ppt.html">plot_gg_ppt()</a></code> - when <code>rasterize_plot=TRUE</code>, text grobs (geom_text, geom_label, geom_text_repel, etc.) are now kept as vector graphics by default, making them selectable and editable in PowerPoint.</li>
