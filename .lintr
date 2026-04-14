@@ -1,1 +1,7 @@
-linters: local({ args <- list(indentation_linter = indentation_linter(indent = 4L), line_length_linter = NULL, object_name_linter = NULL, cyclocomp_linter = NULL); defaults <- names(lintr::default_linters); for (l in c("pipe_consistency_linter", "return_linter")) { if (l %in% defaults) args[[l]] <- NULL }; do.call(linters_with_defaults, args) })
+linters: list(
+    assignment_linter(),
+    equals_na_linter(),
+    seq_linter(),
+    T_and_F_symbol_linter(),
+    missing_argument_linter()
+  )
