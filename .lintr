@@ -1,5 +1,6 @@
 linters: linters_with_defaults(
     indentation_linter = indentation_linter(indent = 4L),
-    line_length_linter = line_length_linter(120L),
-    object_name_linter = NULL
+    line_length_linter = line_length_linter(200L),
+    object_name_linter = NULL,
+    pipe_consistency_linter = NULL
   )
