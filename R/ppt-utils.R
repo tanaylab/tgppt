@@ -25,6 +25,7 @@ new_ppt <- function(fn) {
 #' @param transparent_bg make background of the plot transparent
 #' @param rasterize_plot rasterize the plotting panel
 #' @param rasterize_legend rasterize the legend panel. Works only when sep_legend=TRUE and rasterize_plot=TRUE
+#' @param rasterize_text rasterize text elements (geom_text, geom_label, geom_text_repel, etc.) within the panel. When FALSE (default), text grobs are kept as vector graphics even when rasterize_plot=TRUE.
 #' @param res resolution of png used to generate rasterized plot
 #' @param new_slide add plot to a new slide
 #' @param overwrite overwrite existing file
@@ -39,7 +40,7 @@ new_ppt <- function(fn) {
 #' temp_ppt <- tempfile(fileext = ".pptx")
 #' plot_gg_ppt(gg, temp_ppt)
 #' @export
-plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, transparent_bg = TRUE, rasterize_plot = FALSE, rasterize_legend = FALSE, res = 300, new_slide = FALSE, overwrite = FALSE, legend_height = NULL, legend_width = NULL, legend_left = NULL, legend_top = NULL, tmpdir = tempdir()) {
+plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, inches = FALSE, sep_legend = FALSE, transparent_bg = TRUE, rasterize_plot = FALSE, rasterize_legend = FALSE, rasterize_text = FALSE, res = 300, new_slide = FALSE, overwrite = FALSE, legend_height = NULL, legend_width = NULL, legend_left = NULL, legend_top = NULL, tmpdir = tempdir()) {
     cm2inch <- 1
     if (!inches) {
         cm2inch <- 2.54
@@ -77,9 +78,20 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
         # plot the panel and other elements separately
         gt <- cowplot::as_gtable(gg)
 
-        # Plot the panel to png
-        gt_panel <- gt
-        gt_panel$grobs <- gt$grobs %>% modify_at(grep("panel", gt$layout$name, invert = TRUE), ~ grid::nullGrob())
+        if (!rasterize_text) {
+            # Separate text grobs from non-text grobs in the panel
+            separated <- separate_text_grobs(gt)
+            gt_no_text <- separated$no_text
+            gt_text_only <- separated$text_only
+
+            # Plot the non-text panel to png
+            gt_panel <- gt_no_text
+            gt_panel$grobs <- gt_no_text$grobs %>% modify_at(grep("panel", gt_no_text$layout$name, invert = TRUE), ~ grid::nullGrob())
+        } else {
+            # Plot the full panel to png (original behavior)
+            gt_panel <- gt
+            gt_panel$grobs <- gt$grobs %>% modify_at(grep("panel", gt$layout$name, invert = TRUE), ~ grid::nullGrob())
+        }
 
         fn <- tempfile(fileext = ".png", tmpdir = tmpdir)
         rasterize_grob(gt_panel, fn, width, height, res, cm2inch)
@@ -92,6 +104,12 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
         ppt <- ppt %>% ph_with(external_img(fn), ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
         plot <- dml(grid::grid.draw(gt_other), bg = "transparent")
         ppt <- ppt %>% ph_with(plot, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+
+        if (!rasterize_text) {
+            # Add text grobs as a vector overlay on top
+            text_overlay <- dml(grid::grid.draw(gt_text_only), bg = "transparent")
+            ppt <- ppt %>% ph_with(text_overlay, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
+        }
 
         if (sep_legend) {
             if (rasterize_legend) {
@@ -117,6 +135,56 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
     }
 
     print(ppt, target = out_ppt)
+}
+
+separate_text_grobs <- function(gt) {
+    text_classes <- c("text", "titleGrob", "textrepeltree", "labelrepeltree", "richtext_grob", "textbox_grob")
+    panel_idx <- grep("panel", gt$layout$name)
+
+    gt_no_text <- gt
+    gt_text_only <- gt
+
+    # Null out non-panel grobs in the text-only gtable
+    gt_text_only$grobs <- gt$grobs %>% modify_at(grep("panel", gt$layout$name, invert = TRUE), ~ grid::nullGrob())
+    # Also null the background in the text-only gtable
+    bg_idx <- grep("background", gt$layout$name)
+    if (length(bg_idx) > 0) {
+        gt_text_only$grobs <- gt_text_only$grobs %>% modify_at(bg_idx, ~ grid::nullGrob())
+    }
+
+    for (i in panel_idx) {
+        panel_grob <- gt$grobs[[i]]
+        if (!inherits(panel_grob, "gTree") || is.null(panel_grob$children)) {
+            next
+        }
+
+        children <- panel_grob$children
+        n_children <- length(children)
+
+        no_text_children <- children
+        text_only_children <- children
+
+        for (j in seq_len(n_children)) {
+            child <- children[[j]]
+            is_text <- inherits(child, text_classes)
+            if (!is_text && inherits(child, "gTree") && !is.null(child$name)) {
+                if (startsWith(child$name, "geom_label")) {
+                    is_text <- TRUE
+                }
+            }
+
+            if (is_text) {
+                no_text_children[[j]] <- grid::nullGrob()
+            } else {
+                text_only_children[[j]] <- grid::nullGrob()
+            }
+        }
+
+        gt_no_text$grobs[[i]] <- grid::setChildren(panel_grob, no_text_children)
+        gt_text_only$grobs[[i]] <- grid::setChildren(panel_grob, text_only_children)
+    }
+
+    list(no_text = gt_no_text, text_only = gt_text_only)
 }
 
 rasterize_grob <- function(grob, fn, width, height, res, cm2inch) {
