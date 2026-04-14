@@ -4,10 +4,13 @@
 \alias{new_ppt}
 \title{Generate an empty pptx file}
 \usage{
-new_ppt(fn)
+new_ppt(fn, template = NULL)
 }
 \arguments{
 \item{fn}{file name of the new pptx file}
+
+\item{template}{path to a custom pptx template file. When NULL, uses
+\code{getOption("tgppt.template")} if set, otherwise the bundled template.}
 }
 \value{
 logical value indicating if the operation succeeded

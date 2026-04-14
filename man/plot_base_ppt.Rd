@@ -13,7 +13,10 @@ plot_base_ppt(
   top = 5,
   inches = FALSE,
   new_slide = FALSE,
-  overwrite = FALSE
+  overwrite = FALSE,
+  template = NULL,
+  title = NULL,
+  title_fp = NULL
 )
 }
 \arguments{
@@ -34,6 +37,18 @@ plot_base_ppt(
 \item{new_slide}{add plot to a new slide}
 
 \item{overwrite}{overwrite existing file}
+
+\item{template}{path to a custom pptx template file. When NULL, uses
+\code{getOption("tgppt.template")} if set, otherwise the bundled template.}
+
+\item{title}{optional slide title string. When not NULL, a title text box is
+placed above the plot.}
+
+\item{title_fp}{an \code{fp_text} object controlling title font properties.
+When NULL (the default), uses 18pt bold ArialMT.}
+}
+\value{
+invisible; called for its side effect of writing a pptx file.
 }
 \description{
 Plot base R plots to ppt

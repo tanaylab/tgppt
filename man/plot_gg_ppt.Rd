@@ -17,6 +17,7 @@ plot_gg_ppt(
   rasterize_plot = FALSE,
   rasterize_legend = FALSE,
   rasterize_text = FALSE,
+  rasterize_geoms = NULL,
   res = 300,
   new_slide = FALSE,
   overwrite = FALSE,
@@ -24,7 +25,10 @@ plot_gg_ppt(
   legend_width = NULL,
   legend_left = NULL,
   legend_top = NULL,
-  tmpdir = tempdir()
+  tmpdir = tempdir(),
+  template = NULL,
+  title = NULL,
+  title_fp = NULL
 )
 }
 \arguments{
@@ -52,6 +56,11 @@ plot_gg_ppt(
 
 \item{rasterize_text}{rasterize text elements (geom_text, geom_label, geom_text_repel, etc.) within the panel. When FALSE (default), text grobs are kept as vector graphics even when rasterize_plot=TRUE.}
 
+\item{rasterize_geoms}{character vector of geom name prefixes to selectively rasterize
+(e.g., \code{c("geom_point", "geom_tile")}). When not NULL, only the matching geom
+layers within panel grobs are rasterized to PNG while the remaining geom layers are
+rendered as vector DML. Setting this implicitly enables \code{rasterize_plot}.}
+
 \item{res}{resolution of png used to generate rasterized plot}
 
 \item{new_slide}{add plot to a new slide}
@@ -61,6 +70,18 @@ plot_gg_ppt(
 \item{legend_height, legend_width, legend_left, legend_top}{legend position and size in case \code{sep_legend=TRUE}. Similar to to height,width,left and top. By default - legend would be plotted to the right of the plot.}
 
 \item{tmpdir}{temporary directory to store the rasterized png intermediate files}
+
+\item{template}{path to a custom pptx template file. When NULL, uses
+\code{getOption("tgppt.template")} if set, otherwise the bundled template.}
+
+\item{title}{optional slide title string. When not NULL, a title text box is
+placed above the plot.}
+
+\item{title_fp}{an \code{fp_text} object controlling title font properties.
+When NULL (the default), uses 18pt bold ArialMT.}
+}
+\value{
+invisible; called for its side effect of writing a pptx file.
 }
 \description{
 Plot ggplot object to ppt
