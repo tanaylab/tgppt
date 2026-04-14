@@ -51,7 +51,7 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
     } else {
         ppt <- read_pptx(out_ppt)
         if (new_slide) {
-            ppt <- ppt %>% add_slide(layout = layout_summary(ppt)$layout[1], master = layout_summary(ppt)$master[1])
+            ppt <- ppt %>% add_slide(layout = "Blank", master = layout_summary(ppt)$master[1])
         }
     }
 
@@ -230,7 +230,7 @@ plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 
     } else {
         ppt <- read_pptx(out_ppt)
         if (new_slide) {
-            ppt <- ppt %>% add_slide(layout = layout_summary(ppt)$layout[1], master = layout_summary(ppt)$master[1])
+            ppt <- ppt %>% add_slide(layout = "Blank", master = layout_summary(ppt)$master[1])
         }
     }
 

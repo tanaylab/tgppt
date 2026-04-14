@@ -16,6 +16,7 @@ plot_gg_ppt(
   transparent_bg = TRUE,
   rasterize_plot = FALSE,
   rasterize_legend = FALSE,
+  rasterize_text = FALSE,
   res = 300,
   new_slide = FALSE,
   overwrite = FALSE,
@@ -48,6 +49,8 @@ plot_gg_ppt(
 \item{rasterize_plot}{rasterize the plotting panel}
 
 \item{rasterize_legend}{rasterize the legend panel. Works only when sep_legend=TRUE and rasterize_plot=TRUE}
+
+\item{rasterize_text}{rasterize text elements (geom_text, geom_label, geom_text_repel, etc.) within the panel. When FALSE (default), text grobs are kept as vector graphics even when rasterize_plot=TRUE.}
 
 \item{res}{resolution of png used to generate rasterized plot}
 

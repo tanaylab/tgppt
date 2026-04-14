@@ -6,10 +6,10 @@ output: github_document
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+    collapse = TRUE,
+    comment = "#>",
+    fig.path = "man/figures/README-",
+    out.width = "100%"
 )
 ```
 
@@ -37,7 +37,12 @@ Plot base R directly to a Powerpoint presentation:
 ```{r base_example}
 library(tgppt)
 temp_ppt <- tempfile(fileext = ".pptx")
-plot_base_ppt({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
+plot_base_ppt(
+    {
+        plot(mtcars$mpg, mtcars$drat)
+    },
+    temp_ppt
+)
 ```
 
 Plot ggplot to a Powerpoint presentation:
@@ -45,7 +50,8 @@ Plot ggplot to a Powerpoint presentation:
 ```{r gg_example}
 library(tgppt)
 library(ggplot2)
-gg <- ggplot(mtcars, aes(x=mpg, y=drat)) + geom_point()
+gg <- ggplot(mtcars, aes(x = mpg, y = drat)) +
+    geom_point()
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_gg_ppt(gg, temp_ppt)
 ```

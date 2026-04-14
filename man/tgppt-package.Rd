@@ -11,6 +11,7 @@ Plot directly to Powerpoint. Based on the officer package.
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://tanaylab.github.io/tgppt/}
   \item \url{https://github.com/tanaylab/tgppt}
   \item Report bugs at \url{https://github.com/tanaylab/tgppt/issues}
 }
