@@ -22,9 +22,8 @@ Imports:
     grDevices,
     utils,
     magrittr
-Suggests: 
-    covr,
-    testthat (>= 2.1.0)    
+Suggests:
+    testthat (>= 2.1.0)
 Remotes: 
     davidgohel/rvg
 Encoding: UTF-8
