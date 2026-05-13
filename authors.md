@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/tanaylab/tgppt/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/tanaylab/tgppt/blob/v0.1.1/DESCRIPTION)
 
 Lifshitz A (2026). *tgppt: Tanay Group Powerpoint Utils*. R package
 version 0.1.1, <https://tanaylab.github.io/tgppt/>.
