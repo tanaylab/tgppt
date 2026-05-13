@@ -81,6 +81,7 @@ invisible; called for its side effect of writing a pptx file.
 ## Examples
 
 ``` r
+
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_base_ppt(
     {

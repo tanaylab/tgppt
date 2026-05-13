@@ -138,6 +138,7 @@ invisible; called for its side effect of writing a pptx file.
 ## Examples
 
 ``` r
+
 library(ggplot2)
 gg <- ggplot(mtcars, aes(x = mpg, y = drat)) +
     geom_point()

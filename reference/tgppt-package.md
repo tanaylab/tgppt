@@ -28,3 +28,7 @@ Useful links:
 ## Author
 
 **Maintainer**: Aviezer Lifshitz <aviezer.lifshitz@weizmann.ac.il>
+
+Authors:
+
+- Aviezer Lifshitz <aviezer.lifshitz@weizmann.ac.il>

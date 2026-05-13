@@ -14,6 +14,8 @@
   : Plot a list of ggplot objects to a PowerPoint file, one per slide
 - [`plot_multi_gg_ppt()`](https://tanaylab.github.io/tgppt/reference/plot_multi_gg_ppt.md)
   : Plot multiple ggplot objects on a single slide
+- [`tgppt_template()`](https://tanaylab.github.io/tgppt/reference/tgppt_template.md)
+  : Path to a bundled tgppt PowerPoint template
 - [`theme_arial()`](https://tanaylab.github.io/tgppt/reference/theme_arial.md)
   : A ggplot2 custom theme (based on 'ArialMT' font)
 - [`vertical_labs()`](https://tanaylab.github.io/tgppt/reference/vertical_labs.md)

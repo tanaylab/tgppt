@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tgppt</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,14 @@
       <small>Source: <a href="https://github.com/tanaylab/tgppt/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.1" id="tgppt-011">tgppt 0.1.1<a class="anchor" aria-label="anchor" href="#tgppt-011"></a></h2>
+<ul><li>New bundled widescreen template (<code>inst/ppt/widescreen.pptx</code>, 13.333 x 7.5 in) alongside the portrait default.</li>
+<li>New exported <code><a href="../reference/tgppt_template.html">tgppt_template()</a></code> resolver that returns the path to a bundled template by name (<code>"portrait"</code> or <code>"widescreen"</code>). Use <code>template = tgppt_template("widescreen")</code> (or <code>options(tgppt.template = tgppt_template("widescreen"))</code>) to get widescreen output without copying templates around.</li>
+<li>Fix: <code><a href="../reference/plot_multi_gg_ppt.html">plot_multi_gg_ppt()</a></code>’s <code>slide_width</code> / <code>slide_height</code> arguments now also resize the underlying slide. Previously they only affected layout calculations, so passing widescreen dimensions against a portrait template produced an off-slide layout. Existing callers get the more-correct behavior automatically.</li>
+<li>Fix: <code><a href="../reference/plot_multi_gg_ppt.html">plot_multi_gg_ppt()</a></code> with <code>titles = ...</code> now bumps <code>top</code> to at least 1.2 cm (the title height) when the caller’s <code>top</code> is smaller, with a warning, so first-row titles can no longer fall off the top of the slide.</li>
+<li>Fix: <code>add_slide_title()</code> clamps off-slide title positions to <code>y = 0</code> (with a warning) instead of placing them at a negative coordinate. Trips when <code>top</code> is less than the title height (1.2 cm or 1.2 in depending on units).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="tgppt-010">tgppt 0.1.0<a class="anchor" aria-label="anchor" href="#tgppt-010"></a></h2>
 <ul><li>Custom template path support: set a default template via <code>options(tgppt.template = "/path/to/template.pptx")</code> or pass the <code>template</code> parameter directly to <code><a href="../reference/new_ppt.html">new_ppt()</a></code>, <code><a href="../reference/plot_gg_ppt.html">plot_gg_ppt()</a></code>, <code><a href="../reference/plot_base_ppt.html">plot_base_ppt()</a></code>, and other functions.</li>

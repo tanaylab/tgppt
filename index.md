@@ -9,6 +9,7 @@ Powerpoint in R. It is based on the magnificent
 You can install tgppt with:
 
 ``` r
+
 remotes::install_github("tanaylab/tgppt")
 ```
 
@@ -17,6 +18,7 @@ remotes::install_github("tanaylab/tgppt")
 Plot base R directly to a Powerpoint presentation:
 
 ``` r
+
 library(tgppt)
 temp_ppt <- tempfile(fileext = ".pptx")
 plot_base_ppt({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
@@ -25,6 +27,7 @@ plot_base_ppt({plot(mtcars$mpg, mtcars$drat)}, temp_ppt)
 Plot ggplot to a Powerpoint presentation:
 
 ``` r
+
 library(tgppt)
 library(ggplot2)
 gg <- ggplot(mtcars, aes(x=mpg, y=drat)) + geom_point()
@@ -35,6 +38,7 @@ plot_gg_ppt(gg, temp_ppt)
 Create a new Powerpoint file:
 
 ``` r
+
 library(tgppt)
 new_ppt("myfile.pptx")
 ```
@@ -42,6 +46,7 @@ new_ppt("myfile.pptx")
 Use “Arial” font based ggplot theme:
 
 ``` r
+
 ggplot2::theme_set(theme_arial(8))
 ```
 
@@ -51,5 +56,6 @@ Powerpoint might crash when plotting a large number of points. To avoid
 that, set `rasterize_plot` to `TRUE`:
 
 ``` r
+
 plot_gg_ppt(gg, temp_ppt, rasterize_plot = TRUE)
 ```

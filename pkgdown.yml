@@ -1,8 +1,8 @@
-pandoc: 3.1.11
+pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles: {}
-last_built: 2026-04-14T19:19Z
+last_built: 2026-05-13T15:09Z
 urls:
   reference: https://tanaylab.github.io/tgppt/reference
   article: https://tanaylab.github.io/tgppt/articles
