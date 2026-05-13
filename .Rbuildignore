@@ -14,3 +14,4 @@
 ^\.git$
 ^\.a5c$
 ^Rplots\.pdf$
+^\.lintr$
