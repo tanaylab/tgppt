@@ -1,5 +1,10 @@
 #' Add a slide title text box to a pptx object
 #'
+#' Places a title text box of height 1.2 (in the caller's units) directly above
+#' the plot at \code{top}. If that would land at a negative y (because
+#' \code{top < title_height}), the title is clamped to y = 0 and a warning is
+#' emitted - the caller has not reserved enough vertical space above the plot.
+#'
 #' @param ppt an rpptx object
 #' @param title character string for the title text
 #' @param title_fp an \code{fp_text} object for title formatting
@@ -14,6 +19,14 @@
 add_slide_title <- function(ppt, title, title_fp, left, top, width, cm2inch) {
     title_height <- 1.2 / cm2inch
     title_top <- top / cm2inch - title_height
+
+    if (title_top < 0) {
+        warning(sprintf(
+            "add_slide_title: title for '%s' would land at y=%.2f (off-slide); clamped to y=0. Increase top by at least %.2f to make room.",
+            title, title_top, -title_top * cm2inch
+        ), call. = FALSE)
+        title_top <- 0
+    }
 
     if (is.null(title_fp)) {
         title_fp <- fp_text(font.family = "ArialMT", font.size = 18, bold = TRUE)
@@ -32,7 +45,54 @@ add_slide_title <- function(ppt, title, title_fp, left, top, width, cm2inch) {
     ppt
 }
 
+#' Path to a bundled tgppt PowerPoint template
+#'
+#' Resolves a named template to a file path. Useful as the \code{template}
+#' argument of \code{\link{plot_gg_ppt}}, \code{\link{plot_multi_gg_ppt}},
+#' \code{\link{plot_list_ppt}}, \code{\link{plot_base_ppt}}, and
+#' \code{\link{add_table_ppt}}.
+#'
+#' @param name template name. Built-in options:
+#'   \describe{
+#'     \item{"portrait"}{A4 portrait (19.05 x 27.52 cm). Default. Suitable for
+#'       paper-style figures.}
+#'     \item{"widescreen"}{16:9 widescreen (33.87 x 19.05 cm = 13.333 x 7.5 in).
+#'       Suitable for talks and multi-panel summary slides.}
+#'   }
+#'
+#' @return the absolute path to the template file
+#'
+#' @examples
+#' tgppt_template()              # portrait
+#' tgppt_template("widescreen")
+#'
+#' \dontrun{
+#' library(ggplot2)
+#' p <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
+#' plot_gg_ppt(p, "deck.pptx", template = tgppt_template("widescreen"))
+#'
+#' # Make widescreen the session-wide default:
+#' options(tgppt.template = tgppt_template("widescreen"))
+#' }
+#' @export
+tgppt_template <- function(name = c("portrait", "widescreen")) {
+    name <- match.arg(name)
+    file_name <- switch(name,
+        portrait = "template.pptx",
+        widescreen = "widescreen.pptx"
+    )
+    path <- system.file("ppt", file_name, package = "tgppt")
+    if (!nzchar(path) || !file.exists(path)) {
+        stop(sprintf("tgppt_template: bundled template '%s' (%s) not found.", name, file_name))
+    }
+    path
+}
+
 #' Resolve the PowerPoint template file path
+#'
+#' Internal helper used by all plot_*_ppt functions to pick a template. Honours,
+#' in order: an explicit \code{template} argument, \code{options(tgppt.template)},
+#' then the bundled portrait default.
 #'
 #' @param template path to a custom template file, or NULL to use defaults
 #'
@@ -55,7 +115,7 @@ get_template <- function(template = NULL) {
         return(opt)
     }
 
-    system.file("ppt", "template.pptx", package = "tgppt")
+    tgppt_template("portrait")
 }
 
 #' Generate an empty pptx file
@@ -316,13 +376,30 @@ plot_multi_gg_ppt <- function(plots, out_ppt, ncol = NULL, nrow = NULL,
         stop("plots must be a non-empty list")
     }
 
-    # Read slide dimensions from template if not specified
-    if (is.null(slide_width) || is.null(slide_height)) {
-        tmpl <- get_template(template)
-        ppt_tmp <- read_pptx(tmpl)
-        sz <- slide_size(ppt_tmp)
-        slide_width <- slide_width %||% (sz$width * 2.54)
-        slide_height <- slide_height %||% (sz$height * 2.54)
+    # Resolve slide_width/slide_height. If the caller supplied either, it
+    # describes both the layout AND the actual slide size - we resize the
+    # underlying template to match. If neither, we read both from the template.
+    user_slide_w <- slide_width
+    user_slide_h <- slide_height
+    tmpl <- get_template(template)
+    tmpl_sz <- slide_size(read_pptx(tmpl))
+    slide_width <- slide_width %||% (tmpl_sz$width * 2.54)
+    slide_height <- slide_height %||% (tmpl_sz$height * 2.54)
+
+    # If the caller's slide_width/slide_height differs from the template's
+    # actual slide size, write a resized template to a tempfile and use that.
+    # Tolerance is ~0.01 in to absorb floating-point round-tripping.
+    target_w_in <- slide_width / 2.54
+    target_h_in <- slide_height / 2.54
+    if (!is.null(user_slide_w) || !is.null(user_slide_h) ||
+            abs(target_w_in - tmpl_sz$width) > 0.01 ||
+            abs(target_h_in - tmpl_sz$height) > 0.01) {
+        resized <- tempfile(fileext = ".pptx")
+        on.exit(unlink(resized), add = TRUE)
+        file.copy(tmpl, resized, overwrite = TRUE)
+        Sys.chmod(resized, "0644")
+        resize_pptx_slide_size(resized, target_w_in, target_h_in)
+        template <- resized
     }
 
     ncol <- ncol %||% ceiling(sqrt(n))
@@ -330,6 +407,20 @@ plot_multi_gg_ppt <- function(plots, out_ppt, ncol = NULL, nrow = NULL,
 
     cell_width <- width %||% ((slide_width - 2 * left) / ncol)
     cell_height <- height %||% ((slide_height - 2 * top) / nrow)
+
+    # If titles are requested, ensure there's room above the FIRST row for the
+    # 1.2 cm/inch title box that add_slide_title draws above each cell.
+    if (!is.null(titles)) {
+        title_height_cm <- 1.2
+        if (top < title_height_cm) {
+            warning(sprintf(
+                "plot_multi_gg_ppt: top=%.2f cm is below the title height (%.2f cm); pushing top to %.2f cm so first-row titles stay on-slide.",
+                top, title_height_cm, title_height_cm
+            ), call. = FALSE)
+            top <- title_height_cm
+            cell_height <- height %||% ((slide_height - 2 * top) / nrow)
+        }
+    }
 
     for (i in seq_len(n)) {
         col <- (i - 1) %% ncol
@@ -359,6 +450,26 @@ plot_multi_gg_ppt <- function(plots, out_ppt, ncol = NULL, nrow = NULL,
     }
 
     invisible(NULL)
+}
+
+# Patch a pptx file's p:sldSz to the given inch dimensions, in place. Used by
+# plot_multi_gg_ppt when slide_width/slide_height differ from the template.
+resize_pptx_slide_size <- function(pptx_path, w_in, h_in) {
+    doc <- read_pptx(pptx_path)
+    sz <- xml2::xml_find_first(doc$presentation$get(), "//p:sldSz")
+    if (inherits(sz, "xml_missing")) {
+        stop("resize_pptx_slide_size: p:sldSz node missing in ", pptx_path)
+    }
+    xml2::xml_set_attr(sz, "cx", as.character(round(w_in * 914400)))
+    xml2::xml_set_attr(sz, "cy", as.character(round(h_in * 914400)))
+    # Drop type so PowerPoint doesn't render a stale "A4" label
+    xml2::xml_set_attr(sz, "type", if (abs(w_in - 13.333) < 0.01 && abs(h_in - 7.5) < 0.01) {
+        "screen16x9"
+    } else {
+        "custom"
+    })
+    print(doc, target = pptx_path)
+    invisible(pptx_path)
 }
 
 #' Plot a list of ggplot objects to a PowerPoint file, one per slide

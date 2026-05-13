@@ -355,3 +355,79 @@ test_that("add_table_ppt with custom styling generates pptx", {
     ppt <- officer::read_pptx(temp_ppt)
     expect_equal(length(table(officer::pptx_summary(ppt)$slide_id)), 1)
 })
+
+test_that("tgppt_template resolves bundled templates", {
+    expect_true(file.exists(tgppt_template()))
+    expect_true(file.exists(tgppt_template("portrait")))
+    expect_true(file.exists(tgppt_template("widescreen")))
+    expect_error(tgppt_template("nonsense"))
+})
+
+test_that("widescreen template has 13.333 x 7.5 in slide size", {
+    sz <- officer::slide_size(officer::read_pptx(tgppt_template("widescreen")))
+    expect_equal(sz$width, 13.333, tolerance = 0.01)
+    expect_equal(sz$height, 7.5, tolerance = 0.01)
+})
+
+test_that("plot_multi_gg_ppt with widescreen template produces widescreen slide", {
+    gg <- ggplot(mtcars, aes(x = mpg, y = drat)) + geom_point()
+    temp_ppt <- tempfile(fileext = ".pptx")
+    plot_multi_gg_ppt(
+        list(gg, gg, gg, gg), temp_ppt, ncol = 2, nrow = 2,
+        template = tgppt_template("widescreen"), overwrite = TRUE
+    )
+    sz <- officer::slide_size(officer::read_pptx(temp_ppt))
+    expect_equal(sz$width, 13.333, tolerance = 0.01)
+    expect_equal(sz$height, 7.5, tolerance = 0.01)
+})
+
+test_that("plot_multi_gg_ppt resizes the slide to match slide_width / slide_height", {
+    # Caller passes widescreen layout dimensions against the (portrait) default
+    # template - the resulting deck should be widescreen, not portrait.
+    gg <- ggplot(mtcars, aes(x = mpg, y = drat)) + geom_point()
+    temp_ppt <- tempfile(fileext = ".pptx")
+    plot_multi_gg_ppt(
+        list(gg, gg, gg, gg), temp_ppt, ncol = 2, nrow = 2,
+        slide_width = 33.87, slide_height = 19.05, overwrite = TRUE
+    )
+    sz <- officer::slide_size(officer::read_pptx(temp_ppt))
+    expect_equal(sz$width, 13.333, tolerance = 0.01)
+    expect_equal(sz$height, 7.5, tolerance = 0.01)
+})
+
+test_that("plot_multi_gg_ppt without slide_size uses template dimensions", {
+    gg <- ggplot(mtcars, aes(x = mpg, y = drat)) + geom_point()
+    tmpl_sz <- officer::slide_size(officer::read_pptx(tgppt_template("portrait")))
+    temp_ppt <- tempfile(fileext = ".pptx")
+    plot_multi_gg_ppt(list(gg, gg), temp_ppt, ncol = 2, overwrite = TRUE)
+    sz <- officer::slide_size(officer::read_pptx(temp_ppt))
+    expect_equal(sz$width, tmpl_sz$width, tolerance = 0.01)
+    expect_equal(sz$height, tmpl_sz$height, tolerance = 0.01)
+})
+
+test_that("plot_multi_gg_ppt with small top and titles is bumped (no off-slide titles)", {
+    gg <- ggplot(mtcars, aes(x = mpg, y = drat)) + geom_point()
+    temp_ppt <- tempfile(fileext = ".pptx")
+    # top = 0.5 cm < 1.2 cm title height; plot_multi_gg_ppt should bump top and warn.
+    expect_warning(
+        plot_multi_gg_ppt(
+            list(gg, gg), temp_ppt, ncol = 2,
+            titles = c("a", "b"), top = 0.5,
+            template = tgppt_template("widescreen"), overwrite = TRUE
+        ),
+        "first-row titles"
+    )
+    expect_true(file.exists(temp_ppt))
+})
+
+test_that("add_slide_title clamps off-slide titles", {
+    gg <- ggplot(mtcars, aes(x = mpg, y = drat)) + geom_point()
+    temp_ppt <- tempfile(fileext = ".pptx")
+    # top = 0.5 cm leaves only 0.5 cm above the cell, but the title needs 1.2 cm.
+    # add_slide_title should clamp to y=0 and warn instead of placing it at -0.7.
+    expect_warning(
+        plot_gg_ppt(gg, temp_ppt, title = "test", top = 0.5, overwrite = TRUE),
+        "off-slide"
+    )
+    expect_true(file.exists(temp_ppt))
+})

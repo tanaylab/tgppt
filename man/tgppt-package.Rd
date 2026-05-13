@@ -30,5 +30,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Aviezer Lifshitz \email{aviezer.lifshitz@weizmann.ac.il}
 
+Authors:
+\itemize{
+  \item Aviezer Lifshitz \email{aviezer.lifshitz@weizmann.ac.il}
+}
+
 }
 \keyword{internal}

@@ -1,3 +1,11 @@
+# tgppt 0.1.1
+
+* New bundled widescreen template (`inst/ppt/widescreen.pptx`, 13.333 x 7.5 in) alongside the portrait default.
+* New exported `tgppt_template()` resolver that returns the path to a bundled template by name (`"portrait"` or `"widescreen"`). Use `template = tgppt_template("widescreen")` (or `options(tgppt.template = tgppt_template("widescreen"))`) to get widescreen output without copying templates around.
+* Fix: `plot_multi_gg_ppt()`'s `slide_width` / `slide_height` arguments now also resize the underlying slide. Previously they only affected layout calculations, so passing widescreen dimensions against a portrait template produced an off-slide layout. Existing callers get the more-correct behavior automatically.
+* Fix: `plot_multi_gg_ppt()` with `titles = ...` now bumps `top` to at least 1.2 cm (the title height) when the caller's `top` is smaller, with a warning, so first-row titles can no longer fall off the top of the slide.
+* Fix: `add_slide_title()` clamps off-slide title positions to `y = 0` (with a warning) instead of placing them at a negative coordinate. Trips when `top` is less than the title height (1.2 cm or 1.2 in depending on units).
+
 # tgppt 0.1.0
 
 * Custom template path support: set a default template via `options(tgppt.template = "/path/to/template.pptx")` or pass the `template` parameter directly to `new_ppt()`, `plot_gg_ppt()`, `plot_base_ppt()`, and other functions.
