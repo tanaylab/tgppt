@@ -1,3 +1,10 @@
+# tgppt 0.1.2
+
+* `plot_gg_ppt()`, `plot_base_ppt()` and `add_table_ppt()` now refuse a write that would add shape geometry PowerPoint cannot open. rvg writes an NA shape position or size as `-2147483648`; PowerPoint rejects such a file while LibreOffice renders it, so a render check cannot catch it. The usual cause is a zero-area shape - in practice `geom_tile(width = 0, height = 0)` used as an invisible layer that carries a legend; use `geom_point(shape = 21, alpha = 0, colour = "transparent")` instead.
+* A refused call leaves the deck unchanged: the result is rendered to a temporary file in `tempdir()` and checked before the deck is touched, then copied into it, so symlinked decks, permissions, owners and hard links behave as before.
+* Only what a call adds is counted. Appending to a deck that is already broken, or starting from such a template, is not refused, but warns.
+* `plot_multi_gg_ppt()` and `plot_list_ppt()` check each plot as they place it, so a refusal stops at the offending plot and keeps the plots placed before it; with `overwrite = TRUE` the old slides are already gone by then.
+
 # tgppt 0.1.1
 
 * New bundled widescreen template (`inst/ppt/widescreen.pptx`, 13.333 x 7.5 in) alongside the portrait default.

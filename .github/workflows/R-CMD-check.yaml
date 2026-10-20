@@ -42,7 +42,14 @@ jobs:
 
       - name: Install macOS system dependencies
         if: runner.os == 'macOS'
-        run: brew install libpng
+        # Apple-silicon runners install Homebrew under /opt/homebrew, which the compiler does not search by
+        # default, so rvg's raster.cpp failed with "'png.h' file not found" even after brew install libpng
+        run: |
+          brew install libpng
+          # rvg links gdtools, whose macOS build needs XQuartz's libXrender (/opt/X11/lib); without it rvg compiles but fails to load
+          brew install --cask xquartz
+          echo "CPATH=$(brew --prefix)/include" >> "$GITHUB_ENV"
+          echo "LIBRARY_PATH=$(brew --prefix)/lib" >> "$GITHUB_ENV"
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
