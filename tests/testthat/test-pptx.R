@@ -432,28 +432,63 @@ test_that("add_slide_title clamps off-slide titles", {
     expect_true(file.exists(temp_ppt))
 })
 
-test_that("a plot that adds NA geometry is refused and the deck is left unchanged", {
+test_that("a call that adds NA geometry is refused and the deck is left as it was", {
     d <- data.frame(x = 1:2, y = 1:2, v = 0:1)
     clean <- ggplot(d, aes(x = x, y = y)) + geom_point()
     # the idiom that broke a deck: an invisible zero-area tile carrying a colour bar
     zero_area <- ggplot(d, aes(x = x, y = y, fill = v)) + geom_tile(width = 0, height = 0)
     carrier <- ggplot(d, aes(x = x, y = y, fill = v)) + geom_point(shape = 21, alpha = 0, colour = "transparent")
 
-    temp_ppt <- tempfile(fileext = ".pptx")
-    plot_gg_ppt(clean, temp_ppt)
-    md5 <- unname(tools::md5sum(temp_ppt))
-    expect_error(plot_gg_ppt(zero_area, temp_ppt), "PowerPoint refuses")
-    expect_equal(unname(tools::md5sum(temp_ppt)), md5)
-    expect_equal(length(list.files(dirname(temp_ppt), pattern = "^\\.tgppt_")), 0)   # no temp file left behind
+    deck <- tempfile(fileext = ".pptx")
+    plot_gg_ppt(clean, deck)
+    md5 <- unname(tools::md5sum(deck))
+    expect_error(plot_gg_ppt(zero_area, deck), "PowerPoint refuses") # appending
+    expect_error(plot_gg_ppt(zero_area, deck, overwrite = TRUE), "PowerPoint refuses") # overwriting
+    expect_equal(unname(tools::md5sum(deck)), md5)
+    fresh <- tempfile(fileext = ".pptx")
+    expect_error(plot_gg_ppt(zero_area, fresh), "PowerPoint refuses") # no new deck is created
+    expect_false(file.exists(fresh))
+    expect_error(plot_base_ppt({
+        plot(1)
+        rect(1, 1, 1, 1)
+    }, fresh), "PowerPoint refuses") # the base-graphics path
 
-    expect_error(plot_gg_ppt(carrier, temp_ppt), NA)
-    expect_equal(count_na_geometry(temp_ppt), 0)
+    expect_error(plot_gg_ppt(carrier, deck), NA)
+    expect_error(plot_gg_ppt(clean + ggtitle("-2147483648"), deck), NA) # the number as text is not geometry
+    expect_equal(count_na_geometry(deck), 0)
+    expect_error(plot_gg_ppt(clean, tempfile(fileext = ".ppt")), "pptx")
+})
 
-    # a deck an older version already broke: appending a clean plot is not refused for the old shapes
-    broken <- tempfile(fileext = ".pptx")
+test_that("writing keeps the deck's file identity: symlink, permissions, hard link", {
+    skip_on_os("windows")
+    d <- data.frame(x = 1:2, y = 1:2)
+    gg <- ggplot(d, aes(x = x, y = y)) + geom_point()
+    real <- tempfile(fileext = ".pptx")
+    plot_gg_ppt(gg, real)
+    Sys.chmod(real, "664", use_umask = FALSE)
+    link <- tempfile(fileext = ".pptx")
+    hard <- tempfile(fileext = ".pptx")
+    file.symlink(real, link)
+    file.link(real, hard)
+
+    plot_gg_ppt(gg, link, new_slide = TRUE)
+    expect_true(nzchar(Sys.readlink(link))) # still a symlink
+    expect_equal(length(officer::read_pptx(real)), 2) # and the real deck got the slide
+    expect_equal(format(file.mode(real)), "664") # permissions kept
+    expect_equal(length(officer::read_pptx(hard)), 2) # same file, so the hard link sees it too
+})
+
+test_that("a deck or template that is already broken warns, and is not refused for its old shapes", {
+    d <- data.frame(x = 1:2, y = 1:2, v = 0:1)
+    clean <- ggplot(d, aes(x = x, y = y)) + geom_point()
+    zero_area <- ggplot(d, aes(x = x, y = y, fill = v)) + geom_tile(width = 0, height = 0)
+    broken <- tempfile(fileext = ".pptx") # what an older tgppt could write
     ppt <- officer::add_slide(officer::read_pptx(), layout = "Title and Content", master = "Office Theme")
     ppt <- officer::ph_with(ppt, rvg::dml(ggobj = zero_area), location = officer::ph_location_fullsize())
     print(ppt, target = broken)
     expect_gt(count_na_geometry(broken), 0)
-    expect_error(plot_gg_ppt(clean, broken), NA)
+
+    expect_warning(plot_gg_ppt(clean, broken), "already contains")
+    expect_error(suppressWarnings(plot_gg_ppt(zero_area, broken)), "PowerPoint refuses") # a new one still is refused
+    expect_warning(plot_gg_ppt(clean, tempfile(fileext = ".pptx"), template = broken), "template")
 })

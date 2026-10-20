@@ -321,15 +321,17 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
         }
     }
 
-    write_ppt_checked(ppt, out_ppt, appending)
+    write_ppt_checked(ppt, out_ppt, appending, template)
 }
 
 #' Count shape coordinates written as NA in a deck
 #'
 #' rvg writes an NA position or size as -2147483648. It produces one for a
-#' zero-area grob, in practice \code{geom_tile(width = 0, height = 0)} used as an
-#' invisible layer that carries a legend. PowerPoint refuses to open a file that
-#' contains one, while LibreOffice renders it, so a render check cannot catch it.
+#' zero-area shape, in practice ggplot's \code{geom_tile(width = 0, height = 0)}
+#' used as an invisible layer that carries a legend. PowerPoint refuses to open a
+#' file that contains one, while LibreOffice renders it, so a render check cannot
+#' catch it. Only attribute values are counted (\code{="-2147483648"}), so slide
+#' text that happens to read -2147483648 is not.
 #'
 #' @param fn path to a .pptx file
 #' @return number of NA coordinates over all slides (0 if \code{fn} does not exist)
@@ -338,47 +340,66 @@ count_na_geometry <- function(fn) {
     if (!file.exists(fn)) {
         return(0L)
     }
-    slides <- grep("^ppt/slides/slide[0-9]+\\.xml$", utils::unzip(fn, list = TRUE)$Name, value = TRUE)
-    n <- vapply(slides, function(s) {
-        con <- unz(fn, s)
+    ents <- utils::unzip(fn, list = TRUE)
+    slides <- ents[grepl("^ppt/slides/slide[0-9]+\\.xml$", ents$Name), , drop = FALSE]
+    n <- vapply(seq_len(nrow(slides)), function(i) {
+        con <- unz(fn, slides$Name[i], open = "rb")
         on.exit(close(con))
-        x <- paste(readLines(con, warn = FALSE), collapse = "")
-        lengths(regmatches(x, gregexpr("-2147483648", x, fixed = TRUE)))
+        # raw bytes and a fixed pattern: a deck of vector scatters can hold hundreds of MB of slide XML
+        length(grepRaw('="-2147483648"', readBin(con, "raw", n = slides$Length[i]), fixed = TRUE, all = TRUE))
     }, integer(1))
     sum(n)
 }
 
 #' Write a deck, refusing one that PowerPoint would not open
 #'
-#' Writes to a temporary file next to \code{out_ppt} and replaces \code{out_ppt}
-#' only if this call added no NA geometry, so a refused plot leaves the deck as it
-#' was. Only what this call ADDS is counted: appending to a deck that an older
-#' version already broke is not refused for the old shapes.
+#' Renders to a temporary file in \code{tempdir()}, counts the NA coordinates
+#' this call added, and only then copies the result INTO \code{out_ppt}. Copying
+#' into the existing file (rather than renaming over it) keeps what officer's
+#' in-place write always kept: a symlinked deck is written through, and the
+#' inode, permissions and owner stay. A refused call leaves the deck unchanged.
+#' Only what this call ADDS is counted, relative to the deck it appended to or the
+#' template it started from.
 #'
 #' @param ppt an rpptx object
 #' @param out_ppt destination path
 #' @param appending TRUE when \code{ppt} was read from \code{out_ppt}
-#' @return \code{out_ppt}, invisibly
+#' @param template the \code{template} argument the caller started from when not appending
+#' @return the absolute path of \code{out_ppt}, invisibly (as officer's print method returns)
 #' @noRd
-write_ppt_checked <- function(ppt, out_ppt, appending) {
-    before <- if (appending) count_na_geometry(out_ppt) else 0L
-    tmp <- tempfile(pattern = ".tgppt_", tmpdir = dirname(out_ppt), fileext = ".pptx")
+write_ppt_checked <- function(ppt, out_ppt, appending, template = NULL) {
+    # officer checks these itself, but it now writes to the temporary file, so check the real target here
+    if (!grepl("\\.pptx$", out_ppt, ignore.case = TRUE)) {
+        stop("out_ppt should have the .pptx extension: ", out_ppt, call. = FALSE)
+    }
+    if (!dir.exists(dirname(out_ppt))) {
+        stop("directory of ", out_ppt, " does not exist", call. = FALSE)
+    }
+    before <- count_na_geometry(if (appending) out_ppt else get_template(template))
+    if (before > 0) {
+        warning(
+            if (appending) out_ppt else "The template", " already contains ", before,
+            " shape coordinate(s) written as NA (-2147483648); PowerPoint will not open the result.",
+            call. = FALSE
+        )
+    }
+    tmp <- tempfile(fileext = ".pptx")
     on.exit(unlink(tmp), add = TRUE)
     print(ppt, target = tmp)
     added <- count_na_geometry(tmp) - before
     if (added > 0) {
         stop(
-            "This plot adds ", added, " shape coordinate(s) written as NA (-2147483648); ",
+            "This call adds ", added, " shape coordinate(s) written as NA (-2147483648); ",
             "PowerPoint refuses to open such a file, while LibreOffice renders it, so a render check would not catch it. ",
-            "Usual cause: a zero-area grob, e.g. geom_tile(width = 0, height = 0) carrying a legend - ",
+            "Usual cause: a zero-area shape, e.g. ggplot's geom_tile(width = 0, height = 0) carrying a legend - ",
             "use geom_point(shape = 21, alpha = 0, colour = 'transparent') instead. ", out_ppt, " was left unchanged.",
             call. = FALSE
         )
     }
-    if (!file.rename(tmp, out_ppt)) {
-        stopifnot(file.copy(tmp, out_ppt, overwrite = TRUE))
+    if (!file.copy(tmp, out_ppt, overwrite = TRUE, copy.mode = FALSE)) {
+        stop("could not write ", out_ppt, " (is it open in another program?)", call. = FALSE)
     }
-    invisible(out_ppt)
+    invisible(normalizePath(out_ppt))
 }
 
 #' Plot multiple ggplot objects on a single slide
@@ -772,7 +793,7 @@ plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 
 
     ppt <- ppt %>% ph_with(out, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
 
-    write_ppt_checked(ppt, out_ppt, appending)
+    write_ppt_checked(ppt, out_ppt, appending, template)
 }
 
 #' Add a table to a PowerPoint slide
@@ -863,5 +884,5 @@ add_table_ppt <- function(df, out_ppt, left = 2, top = 4, width = 25, height = 1
         )
     )
 
-    write_ppt_checked(ppt, out_ppt, appending)
+    write_ppt_checked(ppt, out_ppt, appending, template)
 }
