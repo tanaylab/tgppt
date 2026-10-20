@@ -184,7 +184,8 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
         rasterize_plot <- TRUE
     }
 
-    if (!file.exists(out_ppt) || overwrite) {
+    appending <- file.exists(out_ppt) && !overwrite
+    if (!appending) {
         ppt <- read_pptx(get_template(template))
     } else {
         ppt <- read_pptx(out_ppt)
@@ -320,7 +321,64 @@ plot_gg_ppt <- function(gg, out_ppt, height = 6, width = 6, left = 5, top = 5, i
         }
     }
 
-    print(ppt, target = out_ppt)
+    write_ppt_checked(ppt, out_ppt, appending)
+}
+
+#' Count shape coordinates written as NA in a deck
+#'
+#' rvg writes an NA position or size as -2147483648. It produces one for a
+#' zero-area grob, in practice \code{geom_tile(width = 0, height = 0)} used as an
+#' invisible layer that carries a legend. PowerPoint refuses to open a file that
+#' contains one, while LibreOffice renders it, so a render check cannot catch it.
+#'
+#' @param fn path to a .pptx file
+#' @return number of NA coordinates over all slides (0 if \code{fn} does not exist)
+#' @noRd
+count_na_geometry <- function(fn) {
+    if (!file.exists(fn)) {
+        return(0L)
+    }
+    slides <- grep("^ppt/slides/slide[0-9]+\\.xml$", utils::unzip(fn, list = TRUE)$Name, value = TRUE)
+    n <- vapply(slides, function(s) {
+        con <- unz(fn, s)
+        on.exit(close(con))
+        x <- paste(readLines(con, warn = FALSE), collapse = "")
+        lengths(regmatches(x, gregexpr("-2147483648", x, fixed = TRUE)))
+    }, integer(1))
+    sum(n)
+}
+
+#' Write a deck, refusing one that PowerPoint would not open
+#'
+#' Writes to a temporary file next to \code{out_ppt} and replaces \code{out_ppt}
+#' only if this call added no NA geometry, so a refused plot leaves the deck as it
+#' was. Only what this call ADDS is counted: appending to a deck that an older
+#' version already broke is not refused for the old shapes.
+#'
+#' @param ppt an rpptx object
+#' @param out_ppt destination path
+#' @param appending TRUE when \code{ppt} was read from \code{out_ppt}
+#' @return \code{out_ppt}, invisibly
+#' @noRd
+write_ppt_checked <- function(ppt, out_ppt, appending) {
+    before <- if (appending) count_na_geometry(out_ppt) else 0L
+    tmp <- tempfile(pattern = ".tgppt_", tmpdir = dirname(out_ppt), fileext = ".pptx")
+    on.exit(unlink(tmp), add = TRUE)
+    print(ppt, target = tmp)
+    added <- count_na_geometry(tmp) - before
+    if (added > 0) {
+        stop(
+            "This plot adds ", added, " shape coordinate(s) written as NA (-2147483648); ",
+            "PowerPoint refuses to open such a file, while LibreOffice renders it, so a render check would not catch it. ",
+            "Usual cause: a zero-area grob, e.g. geom_tile(width = 0, height = 0) carrying a legend - ",
+            "use geom_point(shape = 21, alpha = 0, colour = 'transparent') instead. ", out_ppt, " was left unchanged.",
+            call. = FALSE
+        )
+    }
+    if (!file.rename(tmp, out_ppt)) {
+        stopifnot(file.copy(tmp, out_ppt, overwrite = TRUE))
+    }
+    invisible(out_ppt)
 }
 
 #' Plot multiple ggplot objects on a single slide
@@ -689,7 +747,8 @@ plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 
         cm2inch <- 2.54
     }
 
-    if (!file.exists(out_ppt) || overwrite) {
+    appending <- file.exists(out_ppt) && !overwrite
+    if (!appending) {
         ppt <- read_pptx(get_template(template))
     } else {
         ppt <- read_pptx(out_ppt)
@@ -713,7 +772,7 @@ plot_base_ppt <- function(code, out_ppt, height = 6, width = 6, left = 5, top = 
 
     ppt <- ppt %>% ph_with(out, ph_location(height = height / cm2inch, width = width / cm2inch, left = left / cm2inch, top = top / cm2inch))
 
-    print(ppt, target = out_ppt)
+    write_ppt_checked(ppt, out_ppt, appending)
 }
 
 #' Add a table to a PowerPoint slide
@@ -764,7 +823,8 @@ add_table_ppt <- function(df, out_ppt, left = 2, top = 4, width = 25, height = 1
         cm2inch <- 2.54
     }
 
-    if (!file.exists(out_ppt) || overwrite) {
+    appending <- file.exists(out_ppt) && !overwrite
+    if (!appending) {
         ppt <- read_pptx(get_template(template))
     } else {
         ppt <- read_pptx(out_ppt)
@@ -803,5 +863,5 @@ add_table_ppt <- function(df, out_ppt, left = 2, top = 4, width = 25, height = 1
         )
     )
 
-    print(ppt, target = out_ppt)
+    write_ppt_checked(ppt, out_ppt, appending)
 }

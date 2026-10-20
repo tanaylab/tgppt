@@ -1,3 +1,8 @@
+# tgppt 0.1.2
+
+* `plot_gg_ppt()`, `plot_base_ppt()` and `add_table_ppt()` (and so `plot_multi_gg_ppt()` / `plot_list_ppt()`) now refuse to write a deck that PowerPoint would not open. rvg writes an NA shape position or size as `-2147483648`; PowerPoint rejects such a file while LibreOffice renders it, so a render check cannot catch it. The usual cause is a zero-area grob, in practice `geom_tile(width = 0, height = 0)` used as an invisible layer that carries a legend - use `geom_point(shape = 21, alpha = 0, colour = "transparent")` instead. Only what the call adds is counted, so appending to a deck an older version already broke is not refused.
+* Decks are now written to a temporary file next to the target and moved into place, so a refused or failed write leaves the existing deck unchanged.
+
 # tgppt 0.1.1
 
 * New bundled widescreen template (`inst/ppt/widescreen.pptx`, 13.333 x 7.5 in) alongside the portrait default.

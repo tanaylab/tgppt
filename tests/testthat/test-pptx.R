@@ -431,3 +431,29 @@ test_that("add_slide_title clamps off-slide titles", {
     )
     expect_true(file.exists(temp_ppt))
 })
+
+test_that("a plot that adds NA geometry is refused and the deck is left unchanged", {
+    d <- data.frame(x = 1:2, y = 1:2, v = 0:1)
+    clean <- ggplot(d, aes(x = x, y = y)) + geom_point()
+    # the idiom that broke a deck: an invisible zero-area tile carrying a colour bar
+    zero_area <- ggplot(d, aes(x = x, y = y, fill = v)) + geom_tile(width = 0, height = 0)
+    carrier <- ggplot(d, aes(x = x, y = y, fill = v)) + geom_point(shape = 21, alpha = 0, colour = "transparent")
+
+    temp_ppt <- tempfile(fileext = ".pptx")
+    plot_gg_ppt(clean, temp_ppt)
+    md5 <- unname(tools::md5sum(temp_ppt))
+    expect_error(plot_gg_ppt(zero_area, temp_ppt), "PowerPoint refuses")
+    expect_equal(unname(tools::md5sum(temp_ppt)), md5)
+    expect_equal(length(list.files(dirname(temp_ppt), pattern = "^\\.tgppt_")), 0)   # no temp file left behind
+
+    expect_error(plot_gg_ppt(carrier, temp_ppt), NA)
+    expect_equal(count_na_geometry(temp_ppt), 0)
+
+    # a deck an older version already broke: appending a clean plot is not refused for the old shapes
+    broken <- tempfile(fileext = ".pptx")
+    ppt <- officer::add_slide(officer::read_pptx(), layout = "Title and Content", master = "Office Theme")
+    ppt <- officer::ph_with(ppt, rvg::dml(ggobj = zero_area), location = officer::ph_location_fullsize())
+    print(ppt, target = broken)
+    expect_gt(count_na_geometry(broken), 0)
+    expect_error(plot_gg_ppt(clean, broken), NA)
+})
