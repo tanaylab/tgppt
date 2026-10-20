@@ -457,6 +457,10 @@ test_that("a call that adds NA geometry is refused and the deck is left as it wa
     expect_error(plot_gg_ppt(clean + ggtitle("-2147483648"), deck), NA) # the number as text is not geometry
     expect_equal(count_na_geometry(deck), 0)
     expect_error(plot_gg_ppt(clean, tempfile(fileext = ".ppt")), "pptx")
+    a_dir <- tempfile(fileext = ".pptx") # a directory that merely looks like a deck
+    dir.create(a_dir)
+    expect_error(plot_gg_ppt(clean, a_dir, overwrite = TRUE), "is a directory")
+    expect_length(list.files(a_dir), 0)
 })
 
 test_that("writing keeps the deck's file identity: symlink, permissions, hard link", {

@@ -375,6 +375,9 @@ write_ppt_checked <- function(ppt, out_ppt, appending, template = NULL) {
     if (!dir.exists(dirname(out_ppt))) {
         stop("directory of ", out_ppt, " does not exist", call. = FALSE)
     }
+    if (dir.exists(out_ppt)) { # file.copy would silently write INTO it
+        stop(out_ppt, " is a directory", call. = FALSE)
+    }
     before <- count_na_geometry(if (appending) out_ppt else get_template(template))
     if (before > 0) {
         warning(
@@ -397,7 +400,7 @@ write_ppt_checked <- function(ppt, out_ppt, appending, template = NULL) {
         )
     }
     if (!file.copy(tmp, out_ppt, overwrite = TRUE, copy.mode = FALSE)) {
-        stop("could not write ", out_ppt, " (is it open in another program?)", call. = FALSE)
+        stop("could not write ", out_ppt, ": check that it is writable and not open in another program", call. = FALSE)
     }
     invisible(normalizePath(out_ppt))
 }
